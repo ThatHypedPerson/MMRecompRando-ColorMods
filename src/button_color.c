@@ -25,6 +25,13 @@ Color_RGB8 buttonAColors[4] = {
 	{255, 120, 255},	// purple
 };
 
+Color_RGB16 buttonStartColors[4] = {
+	{0x3C, 0xFF, 0x82},	// green
+	{0xFF, 0x82, 0x3C},	// red (vanilla)
+	{0x82, 0x3C, 0xFF},	// blue
+	{0xFF, 0x3C, 0xFF},	// purple
+};
+
 extern u64 gTatlCUpENGTex[];
 extern u64 gTatlCUpGERTex[];
 extern u64 gTatlCUpFRATex[];
@@ -137,6 +144,7 @@ RECOMP_PATCH void Interface_DrawItemButtons(PlayState* play) {
 	Color_RGB8 buttonBColor = buttonBColors[COLOR];
 	Color_RGB8 buttonCColor = buttonCColors[COLOR];
 	Color_RGB8 buttonAColor = buttonAColors[COLOR];
+	Color_RGB16 buttonStartColor = buttonStartColors[COLOR];
 
     OPEN_DISPS(play->state.gfxCtx);
 
@@ -172,8 +180,10 @@ RECOMP_PATCH void Interface_DrawItemButtons(PlayState* play) {
 
     if (!IS_PAUSE_STATE_GAMEOVER) {
         if ((play->pauseCtx.state != PAUSE_STATE_OFF) || (play->pauseCtx.debugEditor != DEBUG_EDITOR_NONE)) {
-            OVERLAY_DISP = Gfx_DrawRect_DropShadow(OVERLAY_DISP, 0x88, 0x11, 0x16, 0x16, 0x5B6, 0x5B6, 0xFF, 0x82, 0x3C,
-                                                   interfaceCtx->startAlpha);
+            // OVERLAY_DISP = Gfx_DrawRect_DropShadow(OVERLAY_DISP, 0x88, 0x11, 0x16, 0x16, 0x5B6, 0x5B6, 0xFF, 0x82, 0x3C,
+            //                                        interfaceCtx->startAlpha);
+            OVERLAY_DISP = Gfx_DrawRect_DropShadow(OVERLAY_DISP, 0x88, 0x11, 0x16, 0x16, 0x5B6, 0x5B6,
+													buttonStartColor.r, buttonStartColor.g, buttonStartColor.b, interfaceCtx->startAlpha);
             // Start Button Texture, Color & Label
             gDPPipeSync(OVERLAY_DISP++);
             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, interfaceCtx->startAlpha);
