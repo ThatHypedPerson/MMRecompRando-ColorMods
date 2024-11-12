@@ -11,6 +11,7 @@ Color_RGB8 buttonBColors[4] = {
 };
 
 // vanilla: 255, 240, 0
+// TODO: apply color to c-up/tatl button
 Color_RGB8 buttonCColors[4] = {
 	{50, 255, 70},		// green
 	{255, 70, 50},		// red
@@ -20,7 +21,7 @@ Color_RGB8 buttonCColors[4] = {
 
 Color_RGB8 buttonAColors[4] = {
 	{200, 255, 100},	// green
-	{255, 100, 200},	// red
+	{255, 100, 150},	// red
 	{100, 200, 255},	// blue (vanilla)
 	{255, 120, 255},	// purple
 };
