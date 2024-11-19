@@ -11,7 +11,6 @@ Color_RGB8 buttonBColors[4] = {
 };
 
 // vanilla: 255, 240, 0
-// TODO: apply color to c-up/tatl button
 Color_RGB8 buttonCColors[4] = {
 	{50, 255, 70},		// green
 	{255, 70, 50},		// red
@@ -217,7 +216,8 @@ RECOMP_PATCH void Interface_DrawItemButtons(PlayState* play) {
             }
 
             OVERLAY_DISP =
-                Gfx_DrawRect_DropShadow(OVERLAY_DISP, 0xFE, 0x10, 0x10, 0x10, 0x800, 0x800, 0xFF, 0xF0, 0, temp);
+                // Gfx_DrawRect_DropShadow(OVERLAY_DISP, 0xFE, 0x10, 0x10, 0x10, 0x800, 0x800, 0xFF, 0xF0, 0, temp);
+                Gfx_DrawRect_DropShadow(OVERLAY_DISP, 0xFE, 0x10, 0x10, 0x10, 0x800, 0x800, buttonCColor.r, buttonCColor.g, buttonCColor.b, temp);
 
             gDPPipeSync(OVERLAY_DISP++);
             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, temp);
@@ -330,4 +330,176 @@ RECOMP_PATCH void Interface_DrawAButton(PlayState* play) {
     }
 
     CLOSE_DISPS(play->state.gfxCtx);
+}
+
+extern s16 sOcarinaButtonAPrimR;
+extern s16 sOcarinaButtonAPrimB;
+extern s16 sOcarinaButtonAPrimG;
+extern s16 sOcarinaButtonAEnvR;
+extern s16 sOcarinaButtonAEnvB;
+extern s16 sOcarinaButtonAEnvG;
+extern s16 sOcarinaButtonCPrimR;
+extern s16 sOcarinaButtonCPrimB;
+extern s16 sOcarinaButtonCPrimG;
+extern s16 sOcarinaButtonCEnvR;
+extern s16 sOcarinaButtonCEnvB;
+extern s16 sOcarinaButtonCEnvG;
+
+void Message_ResetOcarinaButtonAlphas(void);
+
+RECOMP_PATCH void Message_ResetOcarinaButtonState(PlayState* play) {
+    MessageContext* msgCtx = &play->msgCtx;
+
+    msgCtx->ocarinaButtonsPosY[OCARINA_BTN_A] = 189;
+    msgCtx->ocarinaButtonsPosY[OCARINA_BTN_C_DOWN] = 184;
+    msgCtx->ocarinaButtonsPosY[OCARINA_BTN_C_RIGHT] = 179;
+    msgCtx->ocarinaButtonsPosY[OCARINA_BTN_C_LEFT] = 174;
+    msgCtx->ocarinaButtonsPosY[OCARINA_BTN_C_UP] = 169;
+
+    Message_ResetOcarinaButtonAlphas();
+
+    Color_RGB8 buttonAColor = buttonAColors[COLOR];
+    Color_RGB8 buttonCColor = buttonCColors[COLOR];
+
+    // sOcarinaButtonAPrimR = 80;
+    // sOcarinaButtonAPrimG = 150;
+    // sOcarinaButtonAPrimB = 255;
+    sOcarinaButtonAPrimR = buttonAColor.r;
+    sOcarinaButtonAPrimG = buttonAColor.g;
+    sOcarinaButtonAPrimB = buttonAColor.b;
+    sOcarinaButtonAEnvR = 10;
+    sOcarinaButtonAEnvG = 10;
+    sOcarinaButtonAEnvB = 10;
+    // sOcarinaButtonCPrimR = 255;
+    // sOcarinaButtonCPrimG = 255;
+    // sOcarinaButtonCPrimB = 50;
+    sOcarinaButtonCPrimR = buttonCColor.r;
+    sOcarinaButtonCPrimG = buttonCColor.g;
+    sOcarinaButtonCPrimB = buttonCColor.b;
+    sOcarinaButtonCEnvR = 10;
+    sOcarinaButtonCEnvG = 10;
+    sOcarinaButtonCEnvB = 10;
+}
+
+extern s32 sCharTexSize;
+extern s32 sCharTexScale;
+
+RECOMP_PATCH void Message_DrawTextboxIcon(PlayState* play, Gfx** gfxP, s16 x, s16 y) {
+    // static Color_RGB16 sIconPrimColors[] = {
+    //     { 0, 80, 200 },
+    //     { 50, 130, 255 },
+    // };
+    // static Color_RGB16 sIconEnvColors[] = {
+    //     { 0, 0, 0 },
+    //     { 0, 130, 255 },
+    // };
+    // static s16 sIconPrimR = 0;
+    // static s16 sIconPrimG = 80;
+    // static s16 sIconPrimB = 200;
+    
+    // TODO: add flashing back?
+    Color_RGB8 buttonAColor = buttonAColors[COLOR];
+    Color_RGB16 sIconPrimColors[] = {
+        {buttonAColor.r, buttonAColor.g, buttonAColor.b},
+        {buttonAColor.r, buttonAColor.g, buttonAColor.b},
+    };
+    static Color_RGB16 sIconEnvColors[] = {
+        { 0, 0, 0 },
+        { 255, 255, 255 },
+    };
+    s16 sIconPrimR = buttonAColor.r;
+    s16 sIconPrimG = buttonAColor.g;
+    s16 sIconPrimB = buttonAColor.b;
+    
+    static s16 sIconFlashTimer = 12;
+    static s16 sIconFlashColorIndex = 0;
+    static s16 sIconEnvR = 0;
+    static s16 sIconEnvG = 0;
+    static s16 sIconEnvB = 0;
+    Gfx* gfx;
+    MessageContext* msgCtx = &play->msgCtx;
+    Font* font = &msgCtx->font;
+    s16 primR;
+    s16 primG;
+    s16 primB;
+    s16 envR;
+    s16 envG;
+    s16 envB;
+    u8* iconTexture = msgCtx->font.iconBuf;
+
+    gfx = *gfxP;
+
+    if (!msgCtx->textIsCredits) {
+        primR = ABS_ALT(sIconPrimR - sIconPrimColors[sIconFlashColorIndex].r) / sIconFlashTimer;
+        primG = ABS_ALT(sIconPrimG - sIconPrimColors[sIconFlashColorIndex].g) / sIconFlashTimer;
+        primB = ABS_ALT(sIconPrimB - sIconPrimColors[sIconFlashColorIndex].b) / sIconFlashTimer;
+
+        if (sIconPrimR >= sIconPrimColors[sIconFlashColorIndex].r) {
+            sIconPrimR -= primR;
+        } else {
+            sIconPrimR += primR;
+        }
+
+        if (sIconPrimG >= sIconPrimColors[sIconFlashColorIndex].g) {
+            sIconPrimG -= primG;
+        } else {
+            sIconPrimG += primG;
+        }
+
+        if (sIconPrimB >= sIconPrimColors[sIconFlashColorIndex].b) {
+            sIconPrimB -= primB;
+        } else {
+            sIconPrimB += primB;
+        }
+
+        envR = ABS_ALT(sIconEnvR - sIconEnvColors[sIconFlashColorIndex].r) / sIconFlashTimer;
+        envG = ABS_ALT(sIconEnvG - sIconEnvColors[sIconFlashColorIndex].g) / sIconFlashTimer;
+        envB = ABS_ALT(sIconEnvB - sIconEnvColors[sIconFlashColorIndex].b) / sIconFlashTimer;
+
+        if (sIconEnvR >= sIconEnvColors[sIconFlashColorIndex].r) {
+            sIconEnvR -= envR;
+        } else {
+            sIconEnvR += envR;
+        }
+
+        if (sIconEnvG >= sIconEnvColors[sIconFlashColorIndex].g) {
+            sIconEnvG -= envG;
+        } else {
+            sIconEnvG += envG;
+        }
+
+        if (sIconEnvB >= sIconEnvColors[sIconFlashColorIndex].b) {
+            sIconEnvB -= envB;
+        } else {
+            sIconEnvB += envB;
+        }
+
+        sIconFlashTimer--;
+        if (sIconFlashTimer == 0) {
+            sIconPrimR = sIconPrimColors[sIconFlashColorIndex].r;
+            sIconPrimG = sIconPrimColors[sIconFlashColorIndex].g;
+            sIconPrimB = sIconPrimColors[sIconFlashColorIndex].b;
+            sIconEnvR = sIconEnvColors[sIconFlashColorIndex].r;
+            sIconEnvG = sIconEnvColors[sIconFlashColorIndex].g;
+            sIconEnvB = sIconEnvColors[sIconFlashColorIndex].b;
+            sIconFlashTimer = 12;
+            sIconFlashColorIndex ^= 1;
+        }
+
+        gDPPipeSync(gfx++);
+        gDPSetCombineLERP(gfx++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0, PRIMITIVE,
+                          ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
+        gDPSetPrimColor(gfx++, 0, 0, sIconPrimR, sIconPrimG, sIconPrimB, 255);
+        gDPSetEnvColor(gfx++, sIconEnvR, sIconEnvG, sIconEnvB, 255);
+
+        if (!play->pauseCtx.bombersNotebookOpen) {
+            gDPLoadTextureBlock_4b(gfx++, iconTexture, G_IM_FMT_I, 16, 16, 0, G_TX_NOMIRROR | G_TX_CLAMP,
+                                   G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+            gSPTextureRectangle(gfx++, x << 2, y << 2, (x + sCharTexSize) << 2, (y + sCharTexSize) << 2,
+                                G_TX_RENDERTILE, 0, 0, sCharTexScale, sCharTexScale);
+        }
+
+        msgCtx->stateTimer++;
+        *gfxP = gfx;
+    }
 }

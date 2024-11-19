@@ -221,3 +221,321 @@ RECOMP_PATCH void FileSelect_DrawWindowContents(GameState* thisx) {
 
     CLOSE_DISPS(this->state.gfxCtx);
 }
+
+s16 sFileSelRupeePrimColors[3][3] = {
+    { 200, 255, 100 }, // Default Wallet
+    { 170, 170, 255 }, // Adult Wallet
+    { 255, 105, 105 }, // Giant Wallet
+};
+s16 sFileSelRupeeEnvColors[3][3] = {
+    { 0, 80, 0 },   // Default Wallet
+    { 10, 10, 80 }, // Adult Wallet
+    { 40, 10, 0 },  // Giant Wallet
+};
+// static s16 sHeartPrimColors[2][3] = {
+//     { 255, 70, 50 },
+//     { 200, 0, 0 },
+// };
+// static s16 sHeartEnvColors[2][3] = {
+//     { 50, 40, 60 },
+//     { 255, 255, 255 },
+// };
+extern Color_RGB8 heartColors[];
+extern Color_RGB8 heartColorsBG[];
+
+extern u16 D_80814654[];
+extern u64 gFileSelRupeeTex[];
+extern s16 sWalletFirstDigit[];
+extern TexturePtr sFileSelHeartPieceTextures[];
+extern u8 sHealthToQuarterHeartCount[];
+extern TexturePtr sFileSelRemainsTextures[];
+extern u64 gFileSelMASKSENGTex[];
+extern u64 gFileSelOwlSaveIconTex[];
+extern TexturePtr sFileSelDayENGTextures[];
+
+extern u64 gHeartEmptyTex[];
+extern u64 gHeartQuarterTex[];
+extern u64 gHeartHalfTex[];
+extern u64 gHeartThreeQuarterTex[];
+extern u64 gHeartFullTex[];
+extern u64 gDefenseHeartEmptyTex[];
+extern u64 gDefenseHeartQuarterTex[];
+extern u64 gDefenseHeartHalfTex[];
+extern u64 gDefenseHeartThreeQuarterTex[];
+extern u64 gDefenseHeartFullTex[];
+static TexturePtr sHeartTextures[2][5] = {
+    {
+        gHeartEmptyTex,
+        gHeartQuarterTex,
+        gHeartHalfTex,
+        gHeartThreeQuarterTex,
+        gHeartFullTex,
+    },
+    {
+        gDefenseHeartEmptyTex,
+        gDefenseHeartQuarterTex,
+        gDefenseHeartHalfTex,
+        gDefenseHeartThreeQuarterTex,
+        gDefenseHeartFullTex,
+    },
+};
+
+void FileSelect_SplitNumber(u16 value, u16* hundreds, u16* tens, u16* ones);
+Gfx* FileSelect_DrawTexQuadIA8(Gfx* gfx, TexturePtr texture, s16 width, s16 height, s16 point);
+
+RECOMP_PATCH void FileSelect_DrawFileInfo(GameState* thisx, s16 fileIndex) {
+    FileSelectState* this = (FileSelectState*)thisx;
+    Font* font = &this->font;
+    s16 j;
+    s16 vtxOffset;
+    s32 heartType;
+    s16 i;
+    s16 sp20C;
+    s16 health;
+    s16 timeDigits[5];
+    u16 digits[3]; // rupees and mask count
+    u8 quarterHeartCount;
+
+    OPEN_DISPS(this->state.gfxCtx);
+
+    gDPPipeSync(POLY_OPA_DISP++);
+    gDPSetCombineLERP(POLY_OPA_DISP++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE, TEXEL0, 0,
+                      PRIMITIVE, 0);
+
+    sp20C = fileIndex;
+
+    // draw file name
+    if (this->nameAlpha[fileIndex] != 0) {
+        gSPVertex(POLY_OPA_DISP++, &this->windowContentVtx[D_80814654[fileIndex] + (4 * 8)], 32, 0);
+        gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, 0, 0, 0, this->nameAlpha[fileIndex]);
+
+        for (vtxOffset = 0, i = 0; vtxOffset < (4 * 8); i++, vtxOffset += 4) {
+            FileSelect_DrawTexQuadI4(this->state.gfxCtx,
+                                     font->fontBuf + this->fileNames[fileIndex][i] * FONT_CHAR_TEX_SIZE, vtxOffset);
+        }
+
+        gSPVertex(POLY_OPA_DISP++, &this->windowContentVtx[D_80814654[fileIndex]], 32, 0);
+        gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, 255, 255, 255, this->nameAlpha[fileIndex]);
+
+        for (vtxOffset = 0, i = 0; vtxOffset < (4 * 8); i++, vtxOffset += 4) {
+            FileSelect_DrawTexQuadI4(this->state.gfxCtx,
+                                     font->fontBuf + this->fileNames[fileIndex][i] * FONT_CHAR_TEX_SIZE, vtxOffset);
+        }
+    }
+
+    if ((fileIndex == this->selectedFileIndex) || (fileIndex == this->copyDestFileIndex)) {
+        if (this->isOwlSave[fileIndex + 2]) {
+            sp20C = fileIndex + 2;
+        }
+
+        gDPPipeSync(POLY_OPA_DISP++);
+        gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
+        gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, sFileSelRupeePrimColors[this->walletUpgrades[sp20C]][0],
+                        sFileSelRupeePrimColors[this->walletUpgrades[sp20C]][1],
+                        sFileSelRupeePrimColors[this->walletUpgrades[sp20C]][2], this->fileInfoAlpha[fileIndex]);
+        gDPSetEnvColor(POLY_OPA_DISP++, sFileSelRupeeEnvColors[this->walletUpgrades[sp20C]][0],
+                       sFileSelRupeeEnvColors[this->walletUpgrades[sp20C]][1],
+                       sFileSelRupeeEnvColors[this->walletUpgrades[sp20C]][2], 255);
+
+        gSPVertex(POLY_OPA_DISP++, &this->windowContentVtx[D_80814654[fileIndex] + 0xC8], 4, 0);
+
+        gDPLoadTextureBlock(POLY_OPA_DISP++, gFileSelRupeeTex, G_IM_FMT_IA, G_IM_SIZ_8b, 16, 16, 0,
+                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
+                            G_TX_NOLOD);
+        gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
+
+        gDPPipeSync(POLY_OPA_DISP++);
+        gDPSetCombineLERP(POLY_OPA_DISP++, 1, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, 1, 0, PRIMITIVE, 0, TEXEL0, 0,
+                          PRIMITIVE, 0);
+
+        gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, 0, 0, 0, this->fileInfoAlpha[fileIndex]);
+        gSPVertex(POLY_OPA_DISP++, &this->windowContentVtx[D_80814654[fileIndex] + 0x4C], 12, 0);
+
+        FileSelect_SplitNumber((u16)this->rupees[sp20C], &digits[0], &digits[1], &digits[2]);
+
+        for (vtxOffset = 0, i = sWalletFirstDigit[this->walletUpgrades[sp20C]]; i < 3; i++, vtxOffset += 4) {
+            FileSelect_DrawTexQuadI4(this->state.gfxCtx, font->fontBuf + digits[i] * FONT_CHAR_TEX_SIZE, vtxOffset);
+        }
+
+        if (this->rupees[sp20C] == gUpgradeCapacities[4][this->walletUpgrades[sp20C]]) {
+            gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, 120, 255, 0, this->fileInfoAlpha[fileIndex]);
+        } else if (this->rupees[sp20C] != 0) {
+            gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, 255, 255, 255, this->fileInfoAlpha[fileIndex]);
+        } else {
+            gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, 100, 100, 100, this->fileInfoAlpha[fileIndex]);
+        }
+
+        gSPVertex(POLY_OPA_DISP++, &this->windowContentVtx[D_80814654[fileIndex] + 0x40], 12, 0);
+
+        for (vtxOffset = 0, i = sWalletFirstDigit[this->walletUpgrades[sp20C]]; i < 3; i++, vtxOffset += 4) {
+            FileSelect_DrawTexQuadI4(this->state.gfxCtx, font->fontBuf + digits[i] * FONT_CHAR_TEX_SIZE, vtxOffset);
+        }
+
+        gDPPipeSync(POLY_OPA_DISP++);
+        gDPSetCombineLERP(POLY_OPA_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
+                          PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
+
+        gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, 255, 0, 0, this->fileInfoAlpha[fileIndex]);
+        gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
+
+        gSPVertex(POLY_OPA_DISP++, &this->windowContentVtx[D_80814654[fileIndex] + 0xCC], 4, 0);
+
+        POLY_OPA_DISP = FileSelect_DrawTexQuadIA8(
+            POLY_OPA_DISP, sFileSelHeartPieceTextures[this->heartPieceCount[sp20C]], 0x18, 0x10, (s16)0);
+
+        if (this->defenseHearts[sp20C] == 0) {
+            heartType = 0;
+        } else {
+            heartType = 1;
+        }
+
+        // gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, sHeartPrimColors[heartType][0], sHeartPrimColors[heartType][1],
+        //                 sHeartPrimColors[heartType][2], this->fileInfoAlpha[fileIndex]);
+        gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, heartColors[COLOR].r, heartColors[COLOR].g,
+                        heartColors[COLOR].b, this->fileInfoAlpha[fileIndex]);
+        // gDPSetEnvColor(POLY_OPA_DISP++, sHeartEnvColors[heartType][0], sHeartEnvColors[heartType][1],
+        //                sHeartEnvColors[heartType][2], 255);
+        gDPSetEnvColor(POLY_OPA_DISP++, heartColorsBG[COLOR].r, heartColorsBG[COLOR].g,
+                       heartColorsBG[COLOR].b, 255);
+
+        i = this->healthCapacity[sp20C] / 0x10;
+
+        health = this->health[sp20C];
+        if (health <= 0x30) {
+            health = 0x30;
+        }
+
+        quarterHeartCount = 4;
+        for (vtxOffset = 0, j = 0; j < i; j++, vtxOffset += 4) {
+            if (health < 0x10) {
+                if (health != 0) {
+                    quarterHeartCount = sHealthToQuarterHeartCount[health];
+                    health = 0;
+                } else {
+                    quarterHeartCount = 0;
+                }
+            } else {
+                health -= 0x10;
+            }
+
+            gSPVertex(POLY_OPA_DISP++, &this->windowContentVtx[D_80814654[fileIndex] + 0x68 + vtxOffset], 4, 0);
+            POLY_OPA_DISP =
+                FileSelect_DrawTexQuadIA8(POLY_OPA_DISP, sHeartTextures[heartType][quarterHeartCount], 0x10, 0x10, 0);
+        }
+
+        gDPPipeSync(POLY_OPA_DISP++);
+        gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
+        gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, 255, 255, 255, this->fileInfoAlpha[fileIndex]);
+        gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
+
+        for (vtxOffset = 0, j = 0; j < 4; j++, vtxOffset += 4) {
+            if (this->questItems[sp20C] & gBitFlags[j]) {
+                gSPVertex(POLY_OPA_DISP++, &this->windowContentVtx[D_80814654[fileIndex] + 0xB8 + vtxOffset], 4, 0);
+                gDPLoadTextureBlock(POLY_OPA_DISP++, sFileSelRemainsTextures[j], G_IM_FMT_RGBA, G_IM_SIZ_32b, 32, 32, 0,
+                                    G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
+                                    G_TX_NOLOD, G_TX_NOLOD);
+                gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
+            }
+        }
+
+        gDPPipeSync(POLY_OPA_DISP++);
+        gDPSetCombineLERP(POLY_OPA_DISP++, 1, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, 1, 0, PRIMITIVE, 0, TEXEL0, 0,
+                          PRIMITIVE, 0);
+
+        gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, 0, 0, 0, this->fileInfoAlpha[fileIndex]);
+        gSPVertex(POLY_OPA_DISP++, &this->windowContentVtx[D_80814654[fileIndex] + 0xD0], 8, 0);
+        gDPLoadTextureBlock_4b(POLY_OPA_DISP++, gFileSelMASKSENGTex, G_IM_FMT_I, 64, 16, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                               G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+        gSP1Quadrangle(POLY_OPA_DISP++, 4, 6, 7, 5, 0);
+        gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, 255, 255, 255, this->fileInfoAlpha[fileIndex]);
+        gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
+
+        gDPPipeSync(POLY_OPA_DISP++);
+
+        gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, 0, 0, 0, this->fileInfoAlpha[fileIndex]);
+        gSPVertex(POLY_OPA_DISP++, &this->windowContentVtx[D_80814654[fileIndex] + 0x60], 8, 0);
+
+        FileSelect_SplitNumber(this->maskCount[sp20C], &digits[0], &digits[1], &digits[2]);
+
+        for (vtxOffset = 0, i = 1; i < 3; i++, vtxOffset += 4) {
+            FileSelect_DrawTexQuadI4(this->state.gfxCtx, font->fontBuf + digits[i] * FONT_CHAR_TEX_SIZE, vtxOffset);
+        }
+
+        gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, 255, 255, 255, this->fileInfoAlpha[fileIndex]);
+
+        gSPVertex(POLY_OPA_DISP++, &this->windowContentVtx[D_80814654[fileIndex] + 0x58], 8, 0);
+
+        for (vtxOffset = 0, i = 1; i < 3; i++, vtxOffset += 4) {
+
+            FileSelect_DrawTexQuadI4(this->state.gfxCtx, font->fontBuf + digits[i] * FONT_CHAR_TEX_SIZE, vtxOffset);
+        }
+    }
+
+    if (this->isOwlSave[fileIndex + 2]) {
+        gDPPipeSync(POLY_OPA_DISP++);
+        gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
+
+        gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, 255, 255, 255, this->nameAlpha[fileIndex]);
+
+        gSPVertex(POLY_OPA_DISP++, &this->windowContentVtx[D_80814654[fileIndex] + 0xD8], 4, 0);
+
+        gDPLoadTextureBlock(POLY_OPA_DISP++, gFileSelOwlSaveIconTex, G_IM_FMT_RGBA, G_IM_SIZ_32b, 24, 12, 0,
+                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
+                            G_TX_NOLOD);
+        gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
+
+        gDPPipeSync(POLY_OPA_DISP++);
+        gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
+
+        gSPVertex(POLY_OPA_DISP++, &this->windowContentVtx[D_80814654[fileIndex] + 0xDC], 8, 0);
+
+        gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, 0, 0, 0, this->fileInfoAlpha[fileIndex]);
+
+        gDPLoadTextureBlock_4b(POLY_OPA_DISP++, sFileSelDayENGTextures[this->day[sp20C]], G_IM_FMT_I, 48, 24, 0,
+                               G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK,
+                               G_TX_NOLOD, G_TX_NOLOD);
+        gSP1Quadrangle(POLY_OPA_DISP++, 4, 6, 7, 5, 0);
+
+        gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, 255, 255, 255, this->fileInfoAlpha[fileIndex]);
+        gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
+
+        timeDigits[0] = 0;
+        timeDigits[1] = TIME_TO_MINUTES_F(this->time[sp20C]) / 60.0f;
+
+        while (timeDigits[1] >= 10) {
+            timeDigits[0]++;
+            timeDigits[1] -= 10;
+        }
+
+        timeDigits[3] = 0;
+        timeDigits[4] = (s32)TIME_TO_MINUTES_F(this->time[sp20C]) % 60;
+
+        while (timeDigits[4] >= 10) {
+            timeDigits[3]++;
+            timeDigits[4] -= 10;
+        }
+        timeDigits[2] = 0x41;
+
+        gDPPipeSync(POLY_OPA_DISP++);
+        gDPSetCombineLERP(POLY_OPA_DISP++, 1, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, 1, 0, PRIMITIVE, 0, TEXEL0, 0,
+                          PRIMITIVE, 0);
+
+        gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, 0, 0, 0, this->fileInfoAlpha[fileIndex]);
+        gSPVertex(POLY_OPA_DISP++, &this->windowContentVtx[D_80814654[fileIndex] + 0xF8], 20, 0);
+
+        for (i = 0, vtxOffset = 0; i < 5; i++, vtxOffset += 4) {
+            FileSelect_DrawTexQuadI4(this->state.gfxCtx, font->fontBuf + timeDigits[i] * FONT_CHAR_TEX_SIZE, vtxOffset);
+        }
+
+        gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, 255, 255, 255, this->fileInfoAlpha[fileIndex]);
+        gSPVertex(POLY_OPA_DISP++, &this->windowContentVtx[D_80814654[fileIndex] + 0xE4], 20, 0);
+
+        for (i = 0, vtxOffset = 0; i < 5; i++, vtxOffset += 4) {
+            FileSelect_DrawTexQuadI4(this->state.gfxCtx, font->fontBuf + timeDigits[i] * FONT_CHAR_TEX_SIZE, vtxOffset);
+        }
+    }
+
+    gDPPipeSync(POLY_OPA_DISP++);
+
+    CLOSE_DISPS(this->state.gfxCtx);
+}
