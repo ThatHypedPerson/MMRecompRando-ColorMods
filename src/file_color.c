@@ -1,14 +1,7 @@
 #include "modding.h"
 #include "global.h"
 
-#include "color.h"
-
-s16 windowColors[4][3] = {
-	{150, 255, 100},	// green
-	{255, 100, 150},	// red
-	{100, 150, 255},	// blue (vanilla)
-	{225, 125, 225},	// purple
-};
+#include "recolor.h"
 
 // s16 sWindowContentColors[] = { 100, 150, 255 };
 extern s16 sWindowContentColors[];
@@ -40,15 +33,16 @@ RECOMP_PATCH void FileSelect_DrawWindowContents(GameState* thisx) {
     s16 i;
     s16 quadVtxIndex;
 
-	// scuffed lol
-	sWindowContentColors[0] = windowColors[COLOR][0];
-	sWindowContentColors[1] = windowColors[COLOR][1];
-	sWindowContentColors[2] = windowColors[COLOR][2];
-	this->windowColor[0] = sWindowContentColors[0];
-	this->windowColor[1] = sWindowContentColors[1];
-	this->windowColor[2] = sWindowContentColors[2];
+	sWindowContentColors[0] = fileWindowColor.r;
+	sWindowContentColors[1] = fileWindowColor.g;
+	sWindowContentColors[2] = fileWindowColor.b;
+	this->windowColor[0] = fileWindowColor.r;
+	this->windowColor[1] = fileWindowColor.g;
+	this->windowColor[2] = fileWindowColor.b;
 
-	Skybox_SetColors(&this->skyboxCtx, windowColors[COLOR][0], windowColors[COLOR][1], windowColors[COLOR][2], 0, 0, 0);
+    if (recolorFileSkybox) {
+	    Skybox_SetColors(&this->skyboxCtx, fileSkyboxColor.r, fileSkyboxColor.g, fileSkyboxColor.b, 0, 0, 0);
+    }
 
     if (1) {}
 
@@ -383,20 +377,30 @@ RECOMP_PATCH void FileSelect_DrawFileInfo(GameState* thisx, s16 fileIndex) {
         POLY_OPA_DISP = FileSelect_DrawTexQuadIA8(
             POLY_OPA_DISP, sFileSelHeartPieceTextures[this->heartPieceCount[sp20C]], 0x18, 0x10, (s16)0);
 
-        if (this->defenseHearts[sp20C] == 0) {
-            heartType = 0;
-        } else {
-            heartType = 1;
-        }
+        // if (this->defenseHearts[sp20C] == 0) {
+        //     heartType = 0;
+        // } else {
+        //     heartType = 1;
+        // }
 
         // gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, sHeartPrimColors[heartType][0], sHeartPrimColors[heartType][1],
         //                 sHeartPrimColors[heartType][2], this->fileInfoAlpha[fileIndex]);
-        gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, heartColors[COLOR].r, heartColors[COLOR].g,
-                        heartColors[COLOR].b, this->fileInfoAlpha[fileIndex]);
         // gDPSetEnvColor(POLY_OPA_DISP++, sHeartEnvColors[heartType][0], sHeartEnvColors[heartType][1],
         //                sHeartEnvColors[heartType][2], 255);
-        gDPSetEnvColor(POLY_OPA_DISP++, heartColorsBG[COLOR].r, heartColorsBG[COLOR].g,
-                       heartColorsBG[COLOR].b, 255);
+        
+        if (this->defenseHearts[sp20C] == 0) {
+            heartType = 0;
+            gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, heartColor.r, heartColor.g,
+                        heartColor.b, this->fileInfoAlpha[fileIndex]);
+            gDPSetEnvColor(POLY_OPA_DISP++, heartBackgroundColor.r, heartBackgroundColor.g,
+                        heartBackgroundColor.b, 255);
+        } else {
+            heartType = 1;
+            gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, heartDDColor.r, heartDDColor.g,
+                        heartDDColor.b, this->fileInfoAlpha[fileIndex]);
+            gDPSetEnvColor(POLY_OPA_DISP++, heartDDBackgroundColor.r, heartDDBackgroundColor.g,
+                        heartDDBackgroundColor.b, 255);
+        }
 
         i = this->healthCapacity[sp20C] / 0x10;
 

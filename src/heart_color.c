@@ -1,35 +1,21 @@
 #include "modding.h"
 #include "global.h"
 
-#include "color.h"
+#include "recolor.h"
 
-Color_RGB8 heartColors[4] = {
-	{50, 255, 70},	// green
-	{255, 70, 50},	// red
-	{100, 80, 255},	// blue
-	{200, 70, 200},	// purple
-};
+extern s16 sHeartsPrimColors[3][3];
+extern s16 sHeartsEnvColors[3][3];
+extern s16 sHeartsPrimFactors[3][3];
+extern s16 sHeartsEnvFactors[3][3];
+extern s16 sHeartsDDPrimColors[3][3];
+extern s16 sHeartsDDEnvColors[3][3];
+extern s16 sHeartsDDPrimFactors[3][3];
+extern s16 sHeartsDDEnvFactors[3][3];
 
-Color_RGB8 heartColorsBG[4] = {
-	{40, 60, 50},	// green
-	{50, 40, 60},	// red
-	{60, 50, 40},	// blue
-	{60, 40, 60},	// purple
-};
-
-s16 sHeartsPrimColors[3][3] = { { 255, 70, 50 }, { 255, 190, 0 }, { 100, 100, 255 } };
-s16 sHeartsEnvColors[3][3] = { { 50, 40, 60 }, { 255, 0, 0 }, { 0, 0, 255 } };
-s16 sHeartsPrimFactors[3][3] = { { 0, 0, 0 }, { 0, 120, -50 }, { -155, 30, 205 } };
-s16 sHeartsEnvFactors[3][3] = { { 0, 0, 0 }, { 205, -40, -60 }, { -50, -40, 195 } };
-s16 sHeartsDDPrimColors[3][3] = { { 255, 255, 255 }, { 255, 190, 0 }, { 100, 100, 255 } };
-s16 sHeartsDDEnvColors[3][3] = { { 200, 0, 0 }, { 255, 0, 0 }, { 0, 0, 255 } };
-s16 sHeartsDDPrimFactors[3][3] = { { 0, 0, 0 }, { 0, -65, -255 }, { -155, -155, 0 } };
-s16 sHeartsDDEnvFactors[3][3] = { { 0, 0, 0 }, { 55, 0, 0 }, { -200, 0, 255 } };
-
-s16 sBeatingHeartsDDPrim[3];
-s16 sBeatingHeartsDDEnv[3];
-s16 sHeartsDDPrim[2][3];
-s16 sHeartsDDEnv[2][3];
+extern s16 sBeatingHeartsDDPrim[3];
+extern s16 sBeatingHeartsDDEnv[3];
+extern s16 sHeartsDDPrim[2][3];
+extern s16 sHeartsDDEnv[2][3];
 
 RECOMP_PATCH void LifeMeter_UpdateColors(PlayState* play) {
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
@@ -40,9 +26,6 @@ RECOMP_PATCH void LifeMeter_UpdateColors(PlayState* play) {
     s16 rFactor;
     s16 gFactor;
     s16 bFactor;
-
-	Color_RGB8 heartColor = heartColors[COLOR];
-	Color_RGB8 heartColorBG = heartColorsBG[COLOR];
 
     if (interfaceCtx) {}
 
@@ -72,9 +55,9 @@ RECOMP_PATCH void LifeMeter_UpdateColors(PlayState* play) {
     // interfaceCtx->heartsEnvR[0] = 50;
     // interfaceCtx->heartsEnvG[0] = 40;
     // interfaceCtx->heartsEnvB[0] = 60;
-    interfaceCtx->heartsEnvR[0] = heartColorBG.r;
-    interfaceCtx->heartsEnvG[0] = heartColorBG.g;
-    interfaceCtx->heartsEnvB[0] = heartColorBG.b;
+    interfaceCtx->heartsEnvR[0] = heartBackgroundColor.r;
+    interfaceCtx->heartsEnvG[0] = heartBackgroundColor.g;
+    interfaceCtx->heartsEnvB[0] = heartBackgroundColor.b;
 
     interfaceCtx->heartsPrimR[1] = sHeartsPrimColors[type][0];
     interfaceCtx->heartsPrimG[1] = sHeartsPrimColors[type][1];
@@ -88,6 +71,9 @@ RECOMP_PATCH void LifeMeter_UpdateColors(PlayState* play) {
     gFactor = sHeartsPrimFactors[0][1] * factorBeating;
     bFactor = sHeartsPrimFactors[0][2] * factorBeating;
 
+    // interfaceCtx->beatingHeartPrim[0] = (u8)(rFactor + 255) & 0xFF;
+    // interfaceCtx->beatingHeartPrim[1] = (u8)(gFactor + 70) & 0xFF;
+    // interfaceCtx->beatingHeartPrim[2] = (u8)(bFactor + 50) & 0xFF;
     interfaceCtx->beatingHeartPrim[0] = (u8)(rFactor + heartColor.r) & 0xFF;
     interfaceCtx->beatingHeartPrim[1] = (u8)(gFactor + heartColor.g) & 0xFF;
     interfaceCtx->beatingHeartPrim[2] = (u8)(bFactor + heartColor.b) & 0xFF;
@@ -99,17 +85,28 @@ RECOMP_PATCH void LifeMeter_UpdateColors(PlayState* play) {
     if (1) {}
     ddType = type;
 
-    interfaceCtx->beatingHeartEnv[0] = (u8)(rFactor + heartColorBG.r) & 0xFF;
-    interfaceCtx->beatingHeartEnv[1] = (u8)(gFactor + heartColorBG.g) & 0xFF;
-    interfaceCtx->beatingHeartEnv[2] = (u8)(bFactor + heartColorBG.b) & 0xFF;
+    // interfaceCtx->beatingHeartEnv[0] = (u8)(rFactor + 50) & 0xFF;
+    // interfaceCtx->beatingHeartEnv[1] = (u8)(gFactor + 40) & 0xFF;
+    // interfaceCtx->beatingHeartEnv[2] = (u8)(bFactor + 60) & 0xFF;
+    interfaceCtx->beatingHeartEnv[0] = (u8)(rFactor + heartBackgroundColor.r) & 0xFF;
+    interfaceCtx->beatingHeartEnv[1] = (u8)(gFactor + heartBackgroundColor.g) & 0xFF;
+    interfaceCtx->beatingHeartEnv[2] = (u8)(bFactor + heartBackgroundColor.b) & 0xFF;
 
-    sHeartsDDPrim[0][0] = 255;
-    sHeartsDDPrim[0][1] = 255;
-    sHeartsDDPrim[0][2] = 255;
+    // note: double defense acts differently from regular hearts for some reason
 
-    sHeartsDDEnv[0][0] = 200;
-    sHeartsDDEnv[0][1] = 0;
-    sHeartsDDEnv[0][2] = 0;
+    // sHeartsDDPrim[0][0] = 255;
+    // sHeartsDDPrim[0][1] = 255;
+    // sHeartsDDPrim[0][2] = 255;
+    sHeartsDDPrim[0][0] = heartDDBackgroundColor.r;
+    sHeartsDDPrim[0][1] = heartDDBackgroundColor.g;
+    sHeartsDDPrim[0][2] = heartDDBackgroundColor.b;
+
+    // sHeartsDDEnv[0][0] = 200;
+    // sHeartsDDEnv[0][1] = 0;
+    // sHeartsDDEnv[0][2] = 0;
+    sHeartsDDEnv[0][0] = heartDDColor.r;
+    sHeartsDDEnv[0][1] = heartDDColor.g;
+    sHeartsDDEnv[0][2] = heartDDColor.b;
 
     sHeartsDDPrim[1][0] = sHeartsDDPrimColors[ddType][0];
     sHeartsDDPrim[1][1] = sHeartsDDPrimColors[ddType][1];
@@ -123,15 +120,21 @@ RECOMP_PATCH void LifeMeter_UpdateColors(PlayState* play) {
     gFactor = sHeartsDDPrimFactors[ddType][1] * ddFactor;
     bFactor = sHeartsDDPrimFactors[ddType][2] * ddFactor;
 
-    sBeatingHeartsDDPrim[0] = (u8)(rFactor + 255) & 0xFF;
-    sBeatingHeartsDDPrim[1] = (u8)(gFactor + 255) & 0xFF;
-    sBeatingHeartsDDPrim[2] = (u8)(bFactor + 255) & 0xFF;
+    // sBeatingHeartsDDPrim[0] = (u8)(rFactor + 255) & 0xFF;
+    // sBeatingHeartsDDPrim[1] = (u8)(gFactor + 255) & 0xFF;
+    // sBeatingHeartsDDPrim[2] = (u8)(bFactor + 255) & 0xFF;
+    sBeatingHeartsDDPrim[0] = (u8)(rFactor + heartDDBackgroundColor.r) & 0xFF;
+    sBeatingHeartsDDPrim[1] = (u8)(gFactor + heartDDBackgroundColor.g) & 0xFF;
+    sBeatingHeartsDDPrim[2] = (u8)(bFactor + heartDDBackgroundColor.b) & 0xFF;
 
     rFactor = sHeartsDDEnvFactors[ddType][0] * ddFactor;
     gFactor = sHeartsDDEnvFactors[ddType][1] * ddFactor;
     bFactor = sHeartsDDEnvFactors[ddType][2] * ddFactor;
 
-    sBeatingHeartsDDEnv[0] = (u8)(rFactor + 200) & 0xFF;
-    sBeatingHeartsDDEnv[1] = (u8)(gFactor + 0) & 0xFF;
-    sBeatingHeartsDDEnv[2] = (u8)(bFactor + 0) & 0xFF;
+    // sBeatingHeartsDDEnv[0] = (u8)(rFactor + 200) & 0xFF;
+    // sBeatingHeartsDDEnv[1] = (u8)(gFactor + 0) & 0xFF;
+    // sBeatingHeartsDDEnv[2] = (u8)(bFactor + 0) & 0xFF;
+    sBeatingHeartsDDEnv[0] = (u8)(rFactor + heartDDColor.r) & 0xFF;
+    sBeatingHeartsDDEnv[1] = (u8)(gFactor + heartDDColor.g) & 0xFF;
+    sBeatingHeartsDDEnv[2] = (u8)(bFactor + heartDDColor.b) & 0xFF;
 }

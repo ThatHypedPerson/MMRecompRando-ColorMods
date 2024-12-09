@@ -1,7 +1,7 @@
 #include "modding.h"
 #include "global.h"
 
-#include "color.h"
+#include "recolor.h"
 
 Color_RGB8 tatlColors[4] = {
 	{0, 255, 0},	// green
@@ -45,14 +45,14 @@ RECOMP_PATCH void Target_SetFairyState(TargetContext* targetCtx, Actor* actor, A
     // targetCtx->fairyOuterColor.g = sTatlColorList[type].outer.g;
     // targetCtx->fairyOuterColor.b = sTatlColorList[type].outer.b;
     // targetCtx->fairyOuterColor.a = sTatlColorList[type].outer.a;
-    targetCtx->fairyInnerColor.r = tatlColors[COLOR].r;
-    targetCtx->fairyInnerColor.g = tatlColors[COLOR].g;
-    targetCtx->fairyInnerColor.b = tatlColors[COLOR].b;
-    targetCtx->fairyInnerColor.a = sTatlColorList[type].inner.a;
-    targetCtx->fairyOuterColor.r = tatlColors[COLOR].r;
-    targetCtx->fairyOuterColor.g = tatlColors[COLOR].g;
-    targetCtx->fairyOuterColor.b = tatlColors[COLOR].b;
-    targetCtx->fairyOuterColor.a = sTatlColorList[type].outer.a;
+    targetCtx->fairyInnerColor.r = tatlColorInner.r;
+    targetCtx->fairyInnerColor.g = tatlColorInner.g;
+    targetCtx->fairyInnerColor.b = tatlColorInner.b;
+    targetCtx->fairyInnerColor.a = 255;
+    targetCtx->fairyOuterColor.r = tatlColorOuter.r;
+    targetCtx->fairyOuterColor.g = tatlColorOuter.g;
+    targetCtx->fairyOuterColor.b = tatlColorOuter.b;
+    targetCtx->fairyOuterColor.a = 0;
 }
 
 void Target_SetLockOnPos(TargetContext* targetCtx, s32 index, f32 x, f32 y, f32 z);
@@ -74,9 +74,9 @@ RECOMP_PATCH void Target_InitLockOn(TargetContext* targetCtx, ActorType type, Pl
         // triangleSet->color.r = tatlColorEntry->inner.r;
         // triangleSet->color.g = tatlColorEntry->inner.g;
         // triangleSet->color.b = tatlColorEntry->inner.b;
-        triangleSet->color.r = tatlColors[COLOR].r;
-        triangleSet->color.g = tatlColors[COLOR].g;
-        triangleSet->color.b = tatlColors[COLOR].b;
+        triangleSet->color.r = tatlColorInner.r;
+        triangleSet->color.g = tatlColorInner.g;
+        triangleSet->color.b = tatlColorInner.b;
     }
 }
 
@@ -163,7 +163,7 @@ RECOMP_PATCH void Target_Draw(TargetContext* targetCtx, PlayState* play) {
                     Matrix_Scale(lockOnScaleX, 0.15f, 1.0f, MTXMODE_APPLY);
 
                     // gDPSetPrimColor(OVERLAY_DISP++, 0, 0, entry->color.r, entry->color.g, entry->color.b, (u8)alpha);
-                    gDPSetPrimColor(OVERLAY_DISP++, 0, 0, tatlColors[COLOR].r, tatlColors[COLOR].g, tatlColors[COLOR].b, (u8)alpha);
+                    gDPSetPrimColor(OVERLAY_DISP++, 0, 0, tatlColorInner.r, tatlColorInner.g, tatlColorInner.b, (u8)alpha);
 
                     Matrix_RotateZS(targetCtx->rotZTick * 0x200, MTXMODE_APPLY);
 
@@ -198,7 +198,7 @@ RECOMP_PATCH void Target_Draw(TargetContext* targetCtx, PlayState* play) {
         Matrix_Scale((iREG(27) + 35) / 1000.0f, (iREG(28) + 60) / 1000.0f, (iREG(29) + 50) / 1000.0f, MTXMODE_APPLY);
 
         // gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, color->inner.r, color->inner.g, color->inner.b, 255);
-        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, tatlColors[COLOR].r, tatlColors[COLOR].g, tatlColors[COLOR].b, 255);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, tatlColorInner.r, tatlColorInner.g, tatlColorInner.b, 255);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx), G_MTX_MODELVIEW | G_MTX_LOAD);
         gSPDisplayList(POLY_XLU_DISP++, gZTargetArrowDL);
     }

@@ -1,16 +1,9 @@
 #include "modding.h"
 #include "global.h"
 
-#include "color.h"
+#include "recolor.h"
 
 #include "z64player.h"
-
-Color_RGB8 sTunicColors[4] = {
-    { 30, 105, 27 },    // PLAYER_TUNIC_KOKIRI
-    { 100, 20, 0 },     // PLAYER_TUNIC_GORON
-    { 0, 60, 100 },     // PLAYER_TUNIC_ZORA
-    { 80, 0, 80 },      // purple
-};
 
 extern Vtx object_link_childVtx_007900[];
 extern u64 gLinkHumanSkinTLUT[];
@@ -607,7 +600,7 @@ void updateHumanLinkColor(PlayState* play, s32 limbIndex, Gfx** dList)
 	}
 
 	OPEN_DISPS(play->state.gfxCtx);
-	Color_RGB8* color = &sTunicColors[COLOR];
+	Color_RGB8* color = &humanTunicColor;
 	gDPSetEnvColor(POLY_OPA_DISP++, color->r, color->g, color->b, 0);
 	CLOSE_DISPS(play->state.gfxCtx);
 }

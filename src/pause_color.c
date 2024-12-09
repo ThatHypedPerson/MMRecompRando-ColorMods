@@ -1,24 +1,7 @@
 #include "modding.h"
 #include "global.h"
 
-#include "color.h"
-
-// there could be a different color per pause screen
-// vanilla: 180, 180, 120
-Color_RGB8 pauseMainColors[4] = {
-	{120, 180, 120},	// green
-	{180, 120, 120},	// red
-	{120, 120, 180},	// blue
-	{180, 60, 180},		// purple
-};
-
-// vanilla: 150, 140, 90
-Color_RGB8 pauseExtraColors[4] = {
-	{90, 150, 90},		// green
-	{150, 90, 90},		// red
-	{90, 90, 150},		// blue
-	{150, 90, 150},		// purple
-};
+#include "recolor.h"
 
 #define IS_PAUSE_STATE_GAMEOVER \
     ((pauseCtx->state >= PAUSE_STATE_GAMEOVER_0) && (pauseCtx->state <= PAUSE_STATE_GAMEOVER_10))
@@ -149,8 +132,6 @@ RECOMP_PATCH void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCt
     s16 stepG;
     s16 stepB;
 
-	Color_RGB8 pauseMainColor = pauseMainColors[COLOR];
-
     OPEN_DISPS(gfxCtx);
 
     if (!IS_PAUSE_STATE_GAMEOVER) {
@@ -232,8 +213,7 @@ RECOMP_PATCH void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCt
                               TEXEL0, 0, SHADE, 0);
 
             // gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 180, 180, 120, 255);
-			gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, pauseMainColor.r, pauseMainColor.g, pauseMainColor.b, 255);
-
+			gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, pauseMenuItemColor.r, pauseMenuItemColor.g, pauseMenuItemColor.b, 255);
 
             Matrix_RotateYF(0.0f, MTXMODE_NEW);
             Matrix_Translate(0.0f, sPauseMenuVerticalOffset / 100.0f, -93.0f, MTXMODE_APPLY);
@@ -254,7 +234,7 @@ RECOMP_PATCH void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCt
                               TEXEL0, 0, SHADE, 0);
 
             // gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 180, 180, 120, 255);
-			gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, pauseMainColor.r, pauseMainColor.g, pauseMainColor.b, 255);
+			gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, pauseMenuMapColor.r, pauseMenuMapColor.g, pauseMenuMapColor.b, 255);
 
 
             Matrix_RotateYF(-1.57f, MTXMODE_NEW);
@@ -285,7 +265,7 @@ RECOMP_PATCH void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCt
                               TEXEL0, 0, SHADE, 0);
 
             // gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 180, 180, 120, 255);
-			gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, pauseMainColor.r, pauseMainColor.g, pauseMainColor.b, 255);
+			gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, pauseMenuQuestColor.r, pauseMenuQuestColor.g, pauseMenuQuestColor.b, 255);
 
 
             Matrix_RotateYF(-3.14f, MTXMODE_NEW);
@@ -309,7 +289,7 @@ RECOMP_PATCH void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCt
                               TEXEL0, 0, SHADE, 0);
 
             // gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 180, 180, 120, 255);
-			gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, pauseMainColor.r, pauseMainColor.g, pauseMainColor.b, 255);
+			gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, pauseMenuMaskColor.r, pauseMenuMaskColor.g, pauseMenuMaskColor.b, 255);
 
 
             Matrix_RotateYF(1.57f, MTXMODE_NEW);
@@ -333,7 +313,7 @@ RECOMP_PATCH void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCt
                                       PRIMITIVE, 0, TEXEL0, 0, SHADE, 0);
 
                     // gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 180, 180, 120, 255);
-					gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, pauseMainColor.r, pauseMainColor.g, pauseMainColor.b, 255);
+					gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, pauseMenuItemColor.r, pauseMenuItemColor.g, pauseMenuItemColor.b, 255);
 
 
                     Matrix_RotateYF(0.0f, MTXMODE_NEW);
@@ -357,7 +337,7 @@ RECOMP_PATCH void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCt
                                   0, TEXEL0, 0, SHADE, 0);
 
                 // gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 180, 180, 120, 255);
-				gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, pauseMainColor.r, pauseMainColor.g, pauseMainColor.b, 255);
+				gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, pauseMenuMapColor.r, pauseMenuMapColor.g, pauseMenuMapColor.b, 255);
 
 
                 Matrix_RotateYF(-1.57f, MTXMODE_NEW);
@@ -407,7 +387,7 @@ RECOMP_PATCH void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCt
                                   0, TEXEL0, 0, SHADE, 0);
 
                 // gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 180, 180, 120, 255);
-				gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, pauseMainColor.r, pauseMainColor.g, pauseMainColor.b, 255);
+				gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, pauseMenuQuestColor.r, pauseMenuQuestColor.g, pauseMenuQuestColor.b, 255);
 
 
                 gDPSetTextureFilter(POLY_OPA_DISP++, G_TF_BILERP);
@@ -432,7 +412,7 @@ RECOMP_PATCH void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCt
                                   0, TEXEL0, 0, SHADE, 0);
 
                 // gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 180, 180, 120, 255);
-				gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, pauseMainColor.r, pauseMainColor.g, pauseMainColor.b, 255);
+				gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, pauseMenuMaskColor.r, pauseMenuMaskColor.g, pauseMenuMaskColor.b, 255);
 
 
                 Matrix_RotateYF(1.57f, MTXMODE_NEW);
@@ -493,8 +473,6 @@ RECOMP_PATCH void KaleidoScope_DrawInfoPanel(PlayState* play) {
     s16 y;
     s16 i;
     s16 j;
-
-	Color_RGB8 pauseExtraColor = pauseExtraColors[COLOR];
 
     OPEN_DISPS(play->state.gfxCtx);
 
@@ -635,7 +613,7 @@ RECOMP_PATCH void KaleidoScope_DrawInfoPanel(PlayState* play) {
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     // gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 150, 140, 90, 255);
-    gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, pauseExtraColor.r, pauseExtraColor.g, pauseExtraColor.b, 255);
+    gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, pauseMenuExtraColor.r, pauseMenuExtraColor.g, pauseMenuExtraColor.b, 255);
     gSPVertex(POLY_OPA_DISP++, &pauseCtx->infoPanelVtx[0], 16, 0);
 
     gSPDisplayList(POLY_OPA_DISP++, gItemNamePanelDL);
@@ -643,7 +621,7 @@ RECOMP_PATCH void KaleidoScope_DrawInfoPanel(PlayState* play) {
     if ((pauseCtx->cursorSpecialPos == PAUSE_CURSOR_PAGE_LEFT) &&
         (!pauseCtx->mainState || (pauseCtx->mainState == PAUSE_MAIN_STATE_UNK))) {
         // gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 150, 140, 90, sPauseZRCursorAlpha);
-        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, pauseExtraColor.r, pauseExtraColor.g, pauseExtraColor.b, sPauseZRCursorAlpha);
+        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, pauseMenuExtraColor.r, pauseMenuExtraColor.g, pauseMenuExtraColor.b, sPauseZRCursorAlpha);
     }
 
     gSPDisplayList(POLY_OPA_DISP++, gZButtonIconDL);
@@ -651,7 +629,7 @@ RECOMP_PATCH void KaleidoScope_DrawInfoPanel(PlayState* play) {
     if ((pauseCtx->cursorSpecialPos == PAUSE_CURSOR_PAGE_RIGHT) &&
         (!pauseCtx->mainState || (pauseCtx->mainState == PAUSE_MAIN_STATE_UNK))) {
         // gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 150, 140, 90, sPauseZRCursorAlpha);
-        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, pauseExtraColor.r, pauseExtraColor.g, pauseExtraColor.b, sPauseZRCursorAlpha);
+        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, pauseMenuExtraColor.r, pauseMenuExtraColor.g, pauseMenuExtraColor.b, sPauseZRCursorAlpha);
     }
 
     gSPDisplayList(POLY_OPA_DISP++, gRButtonIconDL);
@@ -844,10 +822,6 @@ RECOMP_PATCH void KaleidoScope_DrawInfoPanel(PlayState* play) {
 
     CLOSE_DISPS(play->state.gfxCtx);
 }
-
-// pause menu ocarina buttons
-extern Color_RGB8 buttonCColors[];
-extern Color_RGB8 buttonAColors[];
 
 extern u64 gOcarinaATex[];
 extern u64 gOcarinaCDownTex[];
@@ -1179,9 +1153,6 @@ RECOMP_PATCH void KaleidoScope_DrawQuestStatus(PlayState* play) {
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
 
-		Color_RGB8 buttonAColor = buttonAColors[COLOR];
-    	Color_RGB8 buttonCColor = buttonCColors[COLOR];
-
         if (pauseCtx->mainState == PAUSE_MAIN_STATE_SONG_PLAYBACK) {
             // Draw ocarina buttons as they are played back
             pauseCtx->ocarinaStaff = AudioOcarina_GetPlaybackStaff();
@@ -1213,12 +1184,19 @@ RECOMP_PATCH void KaleidoScope_DrawQuestStatus(PlayState* play) {
 
                     gDPPipeSync(POLY_OPA_DISP++);
 
-                    if (sQuestSongPlayedOcarinaButtons[i] == OCARINA_BTN_A) {
-                        // gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 80, 150, 255, sQuestSongPlayedOcarinaButtonsAlpha[i]);
-                        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, buttonAColor.r, buttonAColor.g, buttonAColor.b, sQuestSongPlayedOcarinaButtonsAlpha[i]);
+                    if (matchButtonColors) {
+                        if (sQuestSongPlayedOcarinaButtons[i] == OCARINA_BTN_A) {
+                            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, buttonAColor.r, buttonAColor.g, buttonAColor.b, sQuestSongPlayedOcarinaButtonsAlpha[i]);
+                        } else {
+                            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, buttonCColor.r, buttonCColor.g, buttonCColor.b, sQuestSongPlayedOcarinaButtonsAlpha[i]);
+                        }
                     } else {
-                        // gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 50, sQuestSongPlayedOcarinaButtonsAlpha[i]);
-                        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, buttonCColor.r, buttonCColor.g, buttonCColor.b, sQuestSongPlayedOcarinaButtonsAlpha[i]);
+                        if (sQuestSongPlayedOcarinaButtons[i] == OCARINA_BTN_A) {
+                            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 80, 150, 255, sQuestSongPlayedOcarinaButtonsAlpha[i]);
+                        } else {
+                            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 50, sQuestSongPlayedOcarinaButtonsAlpha[i]);
+                        }
+
                     }
 
                     gSPVertex(POLY_OPA_DISP++, &pauseCtx->questVtx[j], 4, 0);
@@ -1245,13 +1223,21 @@ RECOMP_PATCH void KaleidoScope_DrawQuestStatus(PlayState* play) {
 
                 if (pauseCtx->mainState == PAUSE_MAIN_STATE_IDLE_CURSOR_ON_SONG) {
                     // Draw ocarina buttons colored
-                    if (gOcarinaSongButtons[sp1C8].buttonIndex[k] == OCARINA_BTN_A) {
-                        // gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 80, 150, 255, 200);
-                        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, buttonAColor.r, buttonAColor.g, buttonAColor.b, 200);
+                    if (matchButtonColors) {
+                        if (gOcarinaSongButtons[sp1C8].buttonIndex[k] == OCARINA_BTN_A) {
+                            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, buttonAColor.r, buttonAColor.g, buttonAColor.b, 200);
+                        } else {
+                            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, buttonCColor.r, buttonCColor.g, buttonCColor.b, 200);
+                        }
                     } else {
-                        // gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 50, 200);
-                        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, buttonCColor.r, buttonCColor.g, buttonCColor.b, 200);
+                        if (gOcarinaSongButtons[sp1C8].buttonIndex[k] == OCARINA_BTN_A) {
+                            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 80, 150, 255, 200);
+                        } else {
+                            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 50, 200);
+                        }
                     }
+                    
+                    
                 } else {
                     // Gray out buttons while reading ocarina song inputs
                     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 150, 150, 150, 150);
@@ -1301,12 +1287,22 @@ RECOMP_PATCH void KaleidoScope_DrawQuestStatus(PlayState* play) {
 
                     gDPPipeSync(POLY_OPA_DISP++);
 
-                    if (sQuestSongPlayedOcarinaButtons[k] == OCARINA_BTN_A) {
-                        // gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 80, 150, 255, sQuestSongPlayedOcarinaButtonsAlpha[k]);
-                        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, buttonAColor.r, buttonAColor.g, buttonAColor.b, sQuestSongPlayedOcarinaButtonsAlpha[k]);
+                    if (matchButtonColors) {
+                        if (sQuestSongPlayedOcarinaButtons[k] == OCARINA_BTN_A) {
+                            // gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 80, 150, 255, sQuestSongPlayedOcarinaButtonsAlpha[k]);
+                            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, buttonAColor.r, buttonAColor.g, buttonAColor.b, sQuestSongPlayedOcarinaButtonsAlpha[k]);
+                        } else {
+                            // gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 50, sQuestSongPlayedOcarinaButtonsAlpha[k]);
+                            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, buttonCColor.r, buttonCColor.g, buttonCColor.b, sQuestSongPlayedOcarinaButtonsAlpha[k]);
+                        }
                     } else {
-                        // gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 50, sQuestSongPlayedOcarinaButtonsAlpha[k]);
-                        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, buttonCColor.r, buttonCColor.g, buttonCColor.b, sQuestSongPlayedOcarinaButtonsAlpha[k]);
+                        if (sQuestSongPlayedOcarinaButtons[k] == OCARINA_BTN_A) {
+                            // gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 80, 150, 255, sQuestSongPlayedOcarinaButtonsAlpha[k]);
+                            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, buttonAColor.r, buttonAColor.g, buttonAColor.b, sQuestSongPlayedOcarinaButtonsAlpha[k]);
+                        } else {
+                            // gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 50, sQuestSongPlayedOcarinaButtonsAlpha[k]);
+                            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, buttonCColor.r, buttonCColor.g, buttonCColor.b, sQuestSongPlayedOcarinaButtonsAlpha[k]);
+                        }
                     }
 
                     gSPVertex(POLY_OPA_DISP++, &pauseCtx->questVtx[j], 4, 0);

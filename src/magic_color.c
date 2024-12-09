@@ -1,21 +1,7 @@
 #include "modding.h"
 #include "global.h"
 
-#include "color.h"
-
-Color_RGB8 magicColors[4] = {
-	{0, 200, 0},			// green
-	{200, 0, 0},			// red
-	{0, 0, 200},			// blue
-	{200, 0, 200},			// purple
-};
-
-Color_RGB8 magicColorsChateau[4] = {
-	{128, 200, 128},		// green
-	{200, 128, 128},		// red
-	{128, 128, 200},		// blue
-	{255, 128, 255},		// purple
-};
+#include "recolor.h"
 
 extern u64 gMagicMeterEndTex[];
 extern u64 gMagicMeterMidTex[];
@@ -35,9 +21,6 @@ Gfx* Gfx_DrawTexRectIA8_DropShadowOffset(Gfx* gfx, TexturePtr texture, s16 textu
 RECOMP_PATCH void Magic_DrawMeter(PlayState* play) {
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
     s16 magicBarY;
-
-	Color_RGB8 magicColor = magicColors[COLOR];
-	Color_RGB8 magicColorChateau = magicColorsChateau[COLOR];
 
     OPEN_DISPS(play->state.gfxCtx);
 
@@ -83,7 +66,7 @@ RECOMP_PATCH void Magic_DrawMeter(PlayState* play) {
             if (CHECK_WEEKEVENTREG(WEEKEVENTREG_DRANK_CHATEAU_ROMANI)) {
                 // Blue magic
 				// gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 0, 0, 200, interfaceCtx->magicAlpha);
-                gDPSetPrimColor(OVERLAY_DISP++, 0, 0, magicColorChateau.r, magicColorChateau.g, magicColorChateau.b, interfaceCtx->magicAlpha);
+                gDPSetPrimColor(OVERLAY_DISP++, 0, 0, magicChateauColor.r, magicChateauColor.g, magicChateauColor.b, interfaceCtx->magicAlpha);
             } else {
                 // Green magic (default)
 				// gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 0, 200, 0, interfaceCtx->magicAlpha);
@@ -100,7 +83,7 @@ RECOMP_PATCH void Magic_DrawMeter(PlayState* play) {
             if (CHECK_WEEKEVENTREG(WEEKEVENTREG_DRANK_CHATEAU_ROMANI)) {
                 // Blue magic
 				// gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 0, 0, 200, interfaceCtx->magicAlpha);
-                gDPSetPrimColor(OVERLAY_DISP++, 0, 0, magicColorChateau.r, magicColorChateau.g, magicColorChateau.b, interfaceCtx->magicAlpha);
+                gDPSetPrimColor(OVERLAY_DISP++, 0, 0, magicChateauColor.r, magicChateauColor.g, magicChateauColor.b, interfaceCtx->magicAlpha);
             } else {
                 // Green magic (default)
 				// gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 0, 200, 0, interfaceCtx->magicAlpha);

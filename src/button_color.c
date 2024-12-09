@@ -1,36 +1,7 @@
 #include "modding.h"
 #include "global.h"
 
-#include "color.h"
-
-Color_RGB8 buttonBColors[4] = {
-	{100, 255, 120},	// green (vanilla)
-	{255, 120, 100},	// red
-	{120, 120, 255},	// blue
-	{255, 100, 255},	// purple
-};
-
-// vanilla: 255, 240, 0
-Color_RGB8 buttonCColors[4] = {
-	{50, 255, 70},		// green
-	{255, 70, 50},		// red
-	{70, 50, 255},		// blue
-	{240, 0, 240},		// purple
-};
-
-Color_RGB8 buttonAColors[4] = {
-	{200, 255, 100},	// green
-	{255, 100, 150},	// red
-	{100, 200, 255},	// blue (vanilla)
-	{255, 120, 255},	// purple
-};
-
-Color_RGB16 buttonStartColors[4] = {
-	{0x3C, 0xFF, 0x82},	// green
-	{0xFF, 0x82, 0x3C},	// red (vanilla)
-	{0x82, 0x3C, 0xFF},	// blue
-	{0xFF, 0x3C, 0xFF},	// purple
-};
+#include "recolor.h"
 
 extern u64 gTatlCUpENGTex[];
 extern u64 gTatlCUpGERTex[];
@@ -140,11 +111,6 @@ RECOMP_PATCH void Interface_DrawItemButtons(PlayState* play) {
     MessageContext* msgCtx = &play->msgCtx;
     s16 temp; // Used as both an alpha value and a button index
     s32 pad;
-
-	Color_RGB8 buttonBColor = buttonBColors[COLOR];
-	Color_RGB8 buttonCColor = buttonCColors[COLOR];
-	Color_RGB8 buttonAColor = buttonAColors[COLOR];
-	Color_RGB16 buttonStartColor = buttonStartColors[COLOR];
 
     OPEN_DISPS(play->state.gfxCtx);
 
@@ -268,8 +234,6 @@ RECOMP_PATCH void Interface_DrawAButton(PlayState* play) {
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
     s16 aAlpha;
 
-	Color_RGB8 buttonAColor = buttonAColors[COLOR];
-
     OPEN_DISPS(play->state.gfxCtx);
 
     aAlpha = interfaceCtx->aAlpha;
@@ -358,24 +322,25 @@ RECOMP_PATCH void Message_ResetOcarinaButtonState(PlayState* play) {
 
     Message_ResetOcarinaButtonAlphas();
 
-    Color_RGB8 buttonAColor = buttonAColors[COLOR];
-    Color_RGB8 buttonCColor = buttonCColors[COLOR];
-
-    // sOcarinaButtonAPrimR = 80;
-    // sOcarinaButtonAPrimG = 150;
-    // sOcarinaButtonAPrimB = 255;
-    sOcarinaButtonAPrimR = buttonAColor.r;
-    sOcarinaButtonAPrimG = buttonAColor.g;
-    sOcarinaButtonAPrimB = buttonAColor.b;
+    if (matchButtonColors) {
+        sOcarinaButtonAPrimR = buttonAColor.r;
+        sOcarinaButtonAPrimG = buttonAColor.g;
+        sOcarinaButtonAPrimB = buttonAColor.b;
+        sOcarinaButtonCPrimR = buttonCColor.r;
+        sOcarinaButtonCPrimG = buttonCColor.g;
+        sOcarinaButtonCPrimB = buttonCColor.b;
+    } else {
+        sOcarinaButtonAPrimR = 80;
+        sOcarinaButtonAPrimG = 150;
+        sOcarinaButtonAPrimB = 255;
+        sOcarinaButtonCPrimR = 255;
+        sOcarinaButtonCPrimG = 255;
+        sOcarinaButtonCPrimB = 50;
+    }
+        
     sOcarinaButtonAEnvR = 10;
     sOcarinaButtonAEnvG = 10;
     sOcarinaButtonAEnvB = 10;
-    // sOcarinaButtonCPrimR = 255;
-    // sOcarinaButtonCPrimG = 255;
-    // sOcarinaButtonCPrimB = 50;
-    sOcarinaButtonCPrimR = buttonCColor.r;
-    sOcarinaButtonCPrimG = buttonCColor.g;
-    sOcarinaButtonCPrimB = buttonCColor.b;
     sOcarinaButtonCEnvR = 10;
     sOcarinaButtonCEnvG = 10;
     sOcarinaButtonCEnvB = 10;
@@ -396,21 +361,33 @@ RECOMP_PATCH void Message_DrawTextboxIcon(PlayState* play, Gfx** gfxP, s16 x, s1
     // static s16 sIconPrimR = 0;
     // static s16 sIconPrimG = 80;
     // static s16 sIconPrimB = 200;
-    
-    // TODO: add flashing back?
-    Color_RGB8 buttonAColor = buttonAColors[COLOR];
     Color_RGB16 sIconPrimColors[] = {
-        {buttonAColor.r, buttonAColor.g, buttonAColor.b},
-        {buttonAColor.r, buttonAColor.g, buttonAColor.b},
+        { 0, 80, 200 },
+        { 50, 130, 255 },
     };
-    static Color_RGB16 sIconEnvColors[] = {
+    Color_RGB16 sIconEnvColors[] = {
         { 0, 0, 0 },
-        { 255, 255, 255 },
+        { 0, 130, 255 },
     };
-    s16 sIconPrimR = buttonAColor.r;
-    s16 sIconPrimG = buttonAColor.g;
-    s16 sIconPrimB = buttonAColor.b;
+    s16 sIconPrimR = 0;
+    s16 sIconPrimG = 80;
+    s16 sIconPrimB = 200;
     
+    if (matchButtonColors) {
+        // TODO: add proper flashing?
+        Color_RGB16 sIconPrimColors[] = {
+            {buttonAColor.r, buttonAColor.g, buttonAColor.b},
+            {buttonAColor.r, buttonAColor.g, buttonAColor.b},
+        };
+        Color_RGB16 sIconEnvColors[] = {
+            { 0, 0, 0 },
+            { 255, 255, 255 },
+        };
+        s16 sIconPrimR = buttonAColor.r;
+        s16 sIconPrimG = buttonAColor.g;
+        s16 sIconPrimB = buttonAColor.b;
+    }
+
     static s16 sIconFlashTimer = 12;
     static s16 sIconFlashColorIndex = 0;
     static s16 sIconEnvR = 0;
