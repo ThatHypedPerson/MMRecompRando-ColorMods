@@ -13,7 +13,7 @@ bool matchButtonColors = false; // match all instances of these button colors (i
 // Health Colors
 // note: hearts are handled in odd ways, unsure if anything would break though
 Color_RGB8 heartColor = {255, 70, 50};
-Color_RGB8 heartBackgroundColor = {255, 70, 50};
+Color_RGB8 heartBackgroundColor = {50, 40, 60};
 Color_RGB8 heartDDColor = {200, 0, 0};
 Color_RGB8 heartDDBackgroundColor = {255, 255, 255};
 

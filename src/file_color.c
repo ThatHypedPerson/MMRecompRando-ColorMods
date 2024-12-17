@@ -369,7 +369,8 @@ RECOMP_PATCH void FileSelect_DrawFileInfo(GameState* thisx, s16 fileIndex) {
         gDPSetCombineLERP(POLY_OPA_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
                           PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
 
-        gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, 255, 0, 0, this->fileInfoAlpha[fileIndex]);
+        // gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, 255, 0, 0, this->fileInfoAlpha[fileIndex]);
+        gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, heartColor.r, heartColor.g, heartColor.b, this->fileInfoAlpha[fileIndex]);
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
 
         gSPVertex(POLY_OPA_DISP++, &this->windowContentVtx[D_80814654[fileIndex] + 0xCC], 4, 0);

@@ -1132,11 +1132,13 @@ RECOMP_PATCH void KaleidoScope_DrawQuestStatus(PlayState* play) {
                           PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
 
         if ((pauseCtx->state == PAUSE_STATE_OPENING_3) || (pauseCtx->state == PAUSE_STATE_UNPAUSE_SETUP)) {
-            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, sQuestHpPrimColorTargets[0][0], sQuestHpPrimColorTargets[0][1],
-                            sQuestHpPrimColorTargets[0][2], pauseCtx->alpha);
+            // gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, sQuestHpPrimColorTargets[0][0], sQuestHpPrimColorTargets[0][1],
+            //                 sQuestHpPrimColorTargets[0][2], pauseCtx->alpha);
+            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, heartColor.r, heartColor.g, heartColor.b, pauseCtx->alpha);
         } else {
-            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, sQuestHpPrimRed, sQuestHpPrimGreen, sQuestHpPrimBlue,
-                            sQuestHpPrimAlpha);
+            // gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, sQuestHpPrimRed, sQuestHpPrimGreen, sQuestHpPrimBlue,
+            //                 sQuestHpPrimAlpha);
+            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, heartColor.r, heartColor.g, heartColor.b, sQuestHpPrimAlpha);
         }
 
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
