@@ -52,3 +52,8 @@ extern Color_RGB8 clockCenterStarColor;
 extern Color_RGB8 clockBorderColor;
 extern Color_RGB8 clockHourLinesColor;
 extern Color_RGB8 clockFinalHoursColor;
+
+// Map colors
+extern Color_RGB8 mapColor;
+extern Color_RGB8 mapPlayerColor;
+extern Color_RGB8 mapEntranceColor;

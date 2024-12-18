@@ -1082,3 +1082,191 @@ RECOMP_PATCH void Interface_DrawClock(PlayState* play) {
 
     CLOSE_DISPS(play->state.gfxCtx);
 }
+
+// map recolors
+// note: with the current syms this is not editable
+
+// extern Color_RGBA8 sMapColorTable[];
+
+// RECOMP_PATCH void MapData_GetMapColor(s32 colorIndex, Color_RGBA8* color) {
+//     // *color = sMapColorTable[colorIndex];
+//     Color_RGBA8 mapRecolor = {mapColor.r, mapColor.g, mapColor.b, sMapColorTable[colorIndex].a};
+//     *color = mapRecolor;
+// }
+
+// void MapDisp_Minimap_DrawActorIcon(PlayState* play, Actor* actor) {
+//     MapDataRoom* mapDataRoom;
+//     s32 posX;
+//     s32 posY;
+//     s32 texOffsetX;
+//     s32 texOffsetY;
+//     s32 texWidth;
+//     s32 texHeight;
+//     f32 scaleFrac;
+//     f32 unused1;
+//     f32 unused2;
+//     Player* player = GET_PLAYER(play);
+//     s32 scale;
+
+//     // inferred from `MapDisp_Minimap_DrawDoorActor`
+//     unused1 = fabsf(player->actor.world.pos.y - actor->world.pos.y);
+//     unused2 = 1.0f - (1 / 350.0f) * unused1;
+
+//     if (unused2 < 0.0f) {
+//         unused2 = 0.0f;
+//     }
+
+//     mapDataRoom = &sMapDisp.mapDataScene->rooms[sMapDisp.curRoom];
+//     if (mapDataRoom->mapId == MAP_DATA_NO_MAP) {
+//         return;
+//     }
+
+//     MapDisp_GetMapOffset(mapDataRoom, &texOffsetX, &texOffsetY);
+//     MapDisp_GetMapTexDim(mapDataRoom, &texWidth, &texHeight);
+
+//     scale = sMapDisp.mapDataScene->scale;
+//     if (sMapDisp.mapDataScene->scale == 0) {
+//         scale = 20;
+//     } else if (sMapDisp.mapDataScene->scale == -1) {
+//         s32 scaleTemp;
+
+//         MapDisp_GetMapScale(mapDataRoom, &scaleTemp);
+//         scale = scaleTemp;
+//     }
+
+//     scaleFrac = 1.0f / scale;
+//     if (!MapDisp_IsDataRotated(play)) {
+//         posX = (s32)((actor->world.pos.x - mapDataRoom->centerX) * scaleFrac) + sMapDisp.minimapBaseX +
+//                sMapDisp.minimapCurX - sMapDisp.minimapBaseX + texOffsetX;
+//         posY = (s32)((actor->world.pos.z - mapDataRoom->centerZ) * scaleFrac) + sMapDisp.minimapBaseY +
+//                sMapDisp.minimapCurY - sMapDisp.minimapBaseY + texOffsetY;
+//     } else {
+//         posX = -(s32)((actor->world.pos.x - mapDataRoom->centerX) * scaleFrac) + sMapDisp.minimapBaseX +
+//                sMapDisp.minimapCurX - sMapDisp.minimapBaseX + texOffsetX;
+//         posY = -(s32)((actor->world.pos.z - mapDataRoom->centerZ) * scaleFrac) + sMapDisp.minimapBaseY +
+//                sMapDisp.minimapCurY - sMapDisp.minimapBaseY + texOffsetY;
+//     }
+
+//     if ((posX > 0) && (posX < 0x3FF) && (posY > 0) && (posY < 0x3FF)) {
+//         OPEN_DISPS(play->state.gfxCtx);
+
+//         if ((actor->category == ACTORCAT_PLAYER) && (actor->flags & ACTOR_FLAG_80000000)) {
+//             s16 compassRot;
+
+//             Gfx_SetupDL42_Overlay(play->state.gfxCtx);
+//             gSPMatrix(OVERLAY_DISP++, &gIdentityMtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+//             gDPSetCombineLERP(OVERLAY_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
+//                               PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
+//             gDPSetEnvColor(OVERLAY_DISP++, 0, 0, 0, play->interfaceCtx.minimapAlpha);
+//             gDPSetCombineMode(OVERLAY_DISP++, G_CC_PRIMITIVE, G_CC_PRIMITIVE);
+//             gDPSetRenderMode(OVERLAY_DISP++, G_RM_AA_DEC_LINE, G_RM_NOOP2);
+
+//             Matrix_Translate(posX - 160.0f, 120.0f - posY, 0.0f, MTXMODE_NEW);
+//             Matrix_RotateXFApply(-1.6f);
+//             compassRot = (s32)(0x7FFF - actor->focus.rot.y) / 1024;
+//             if (MapDisp_IsDataRotated(play)) {
+//                 compassRot += 0x7FFF;
+//             }
+//             Matrix_RotateYF(compassRot / 10.0f, MTXMODE_APPLY);
+//             Matrix_Scale(0.4f, 0.4f, 0.4f, MTXMODE_APPLY);
+//             MATRIX_FINALIZE_AND_LOAD(OVERLAY_DISP++, play->state.gfxCtx);
+//             // gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 200, 255, 0, play->interfaceCtx.minimapAlpha);
+//             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, mapPlayerColor.r, mapPlayerColor.g, mapPlayerColor.b, play->interfaceCtx.minimapAlpha);
+//             gSPDisplayList(OVERLAY_DISP++, gCompassArrowDL);
+//         } else if ((actor->id == ACTOR_EN_BOX) && !Flags_GetTreasure(play, actor->params & 0x1F) &&
+//                    (MapDisp_GetStoreyY(player->actor.world.pos.y) == MapDisp_GetStoreyY(actor->world.pos.y))) {
+//             Gfx_SetupDL39_Overlay(play->state.gfxCtx);
+//             gDPPipeSync(OVERLAY_DISP++);
+//             gDPSetTextureLUT(OVERLAY_DISP++, G_TT_NONE);
+//             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, play->interfaceCtx.minimapAlpha);
+//             gDPSetEnvColor(OVERLAY_DISP++, 0, 0, 0, play->interfaceCtx.minimapAlpha);
+//             gDPPipeSync(OVERLAY_DISP++);
+
+//             gDPLoadTextureBlock_Runtime(OVERLAY_DISP++, gMapChestIconTex, G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 8, 0,
+//                                         G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
+//                                         G_TX_NOLOD, G_TX_NOLOD);
+
+//             gSPTextureRectangle(OVERLAY_DISP++, (posX - 4) << 2, (posY - 4) << 2, (posX + 4) << 2, (posY + 4) << 2,
+//                                 G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
+//         } else {
+//             Gfx_SetupDL39_Overlay(play->state.gfxCtx);
+//             gDPSetCombineMode(OVERLAY_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
+//             if (actor->flags & ACTOR_FLAG_80000000) {
+//                 gDPSetPrimColor(OVERLAY_DISP++, 0, 0, sMinimapActorCategoryColors[actor->category].r,
+//                                 sMinimapActorCategoryColors[actor->category].g,
+//                                 sMinimapActorCategoryColors[actor->category].b, play->interfaceCtx.minimapAlpha);
+//                 gSPTextureRectangle(OVERLAY_DISP++, (posX - 1) << 2, (posY - 1) << 2, (posX + 1) << 2, (posY + 1) << 2,
+//                                     G_TX_RENDERTILE, 0, 0, 0x0001, 0x0001);
+//             }
+//         }
+//         CLOSE_DISPS(play->state.gfxCtx);
+//     }
+// }
+
+// void MapDisp_Minimap_DrawRedCompassIcon(PlayState* play, s32 x, s32 z, s32 rot) {
+//     MapDataRoom* mapDataRoom;
+//     s32 posX;
+//     s32 posY;
+//     s32 texOffsetX;
+//     s32 texOffsetY;
+//     s32 texWidth;
+//     s32 texHeight;
+//     s32 scale;
+//     f32 scaleFrac;
+
+//     mapDataRoom = &sMapDisp.mapDataScene->rooms[sMapDisp.curRoom];
+//     if (mapDataRoom->mapId == MAP_DATA_NO_MAP) {
+//         return;
+//     }
+
+//     MapDisp_GetMapOffset(mapDataRoom, &texOffsetX, &texOffsetY);
+//     MapDisp_GetMapTexDim(mapDataRoom, &texWidth, &texHeight);
+//     scale = sMapDisp.mapDataScene->scale;
+
+//     if (sMapDisp.mapDataScene->scale == 0) {
+//         scale = 20;
+//     } else if (sMapDisp.mapDataScene->scale == -1) {
+//         s32 scaleTemp;
+
+//         MapDisp_GetMapScale(mapDataRoom, &scaleTemp);
+//         scale = scaleTemp;
+//     }
+
+//     scaleFrac = 1.0f / scale;
+//     if (!MapDisp_IsDataRotated(play)) {
+//         posX = (s32)((x - (f32)mapDataRoom->centerX) * scaleFrac) + sMapDisp.minimapBaseX +
+//                (sMapDisp.minimapCurX - sMapDisp.minimapBaseX) + texOffsetX;
+//         posY = (s32)((z - (f32)mapDataRoom->centerZ) * scaleFrac) + sMapDisp.minimapBaseY +
+//                (sMapDisp.minimapCurY - sMapDisp.minimapBaseY) + texOffsetY;
+//     } else {
+//         posX = -(s32)((x - (f32)mapDataRoom->centerX) * scaleFrac) + sMapDisp.minimapBaseX +
+//                (sMapDisp.minimapCurX - sMapDisp.minimapBaseX) + texOffsetX;
+//         posY = -(s32)((z - (f32)mapDataRoom->centerZ) * scaleFrac) + sMapDisp.minimapBaseY +
+//                (sMapDisp.minimapCurY - sMapDisp.minimapBaseY) + texOffsetY;
+//     }
+
+//     if ((posX > 0) && (posX < 0x3FF) && (posY > 0) && (posY < 0x3FF)) {
+//         OPEN_DISPS(play->state.gfxCtx);
+
+//         Gfx_SetupDL42_Overlay(play->state.gfxCtx);
+//         gSPMatrix(OVERLAY_DISP++, &gIdentityMtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+//         gDPSetCombineLERP(OVERLAY_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
+//                           PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
+//         gDPSetEnvColor(OVERLAY_DISP++, 0, 0, 0, 255);
+//         gDPSetCombineMode(OVERLAY_DISP++, G_CC_PRIMITIVE, G_CC_PRIMITIVE);
+//         gDPSetRenderMode(OVERLAY_DISP++, G_RM_AA_DEC_LINE, G_RM_NOOP2);
+//         Matrix_Translate(posX - 160.0f, 120.0f - posY, 0.0f, MTXMODE_NEW);
+//         Matrix_RotateXFApply(-1.6f);
+//         if (MapDisp_IsDataRotated(play)) {
+//             rot += 0x7FFF;
+//         }
+//         Matrix_RotateYF(rot / 10.0f, MTXMODE_APPLY);
+//         Matrix_Scale(0.4f, 0.4f, 0.4f, MTXMODE_APPLY);
+//         MATRIX_FINALIZE_AND_LOAD(OVERLAY_DISP++, play->state.gfxCtx);
+//         // gDPSetPrimColor(OVERLAY_DISP++, 0, 255, 200, 0, 0, play->interfaceCtx.minimapAlpha);
+//         gDPSetPrimColor(OVERLAY_DISP++, 0, 255, mapEntranceColor.r, mapEntranceColor.g, mapEntranceColor.b, play->interfaceCtx.minimapAlpha);
+//         gSPDisplayList(OVERLAY_DISP++, gCompassArrowDL);
+
+//         CLOSE_DISPS(play->state.gfxCtx);
+//     }
+// }

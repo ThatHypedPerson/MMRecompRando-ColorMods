@@ -63,6 +63,7 @@ Color_RGB8 clockHourLinesColor = {130, 130, 130};
 Color_RGB8 clockFinalHoursColor = {255, 255, 195};
 
 // Map colors
-Color_RGB8 mapColor = {};
-Color_RGB8 mapPlayer = {};
-Color_RGB8 mapEntrance = {};
+// note: this is currently unimplemented since the current modding framework's decomp is missing the functions to edit these
+Color_RGB8 mapColor = {255, 255, 255}; // note: there's actually slightly different map colors, but we ignore them
+Color_RGB8 mapPlayerColor = {200, 255, 0};
+Color_RGB8 mapEntranceColor = {200, 0, 0};
