@@ -44,6 +44,7 @@ bool recolorFileSkybox = false;
 
 // Wallet colors
 // note: {prim, env}, i'm not sure if the env color is visible though
+// note: these are only visible on the file select screen for now due to patching over base recomp patches
 Color_RGB8 walletColors[3][2] = {
 	{{200, 255, 100}, {0, 80, 0}},		// child wallet
 	{{170, 170, 255}, {10, 10, 80}},	// adult wallet
@@ -63,7 +64,6 @@ Color_RGB8 clockHourLinesColor = {130, 130, 130};
 Color_RGB8 clockFinalHoursColor = {255, 255, 195};
 
 // Map colors
-// note: this is currently unimplemented since the current modding framework's decomp is missing the functions to edit these
 Color_RGB8 mapColor = {255, 255, 255}; // note: there's actually slightly different map colors, but we ignore them
 Color_RGB8 mapPlayerColor = {200, 255, 0};
 Color_RGB8 mapEntranceColor = {200, 0, 0};
