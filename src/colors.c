@@ -67,3 +67,7 @@ Color_RGB8 clockFinalHoursColor = {255, 255, 195};
 Color_RGB8 mapColor = {255, 255, 255}; // note: there's actually slightly different map colors, but we ignore them
 Color_RGB8 mapPlayerColor = {200, 255, 0};
 Color_RGB8 mapEntranceColor = {200, 0, 0};
+
+// Ocarina playback colors
+// note: this is for the "textbox" that appears when you play a song
+Color_RGB8 trebleClefColor = {255, 100, 0}; // unimplemented due to mod conflicts

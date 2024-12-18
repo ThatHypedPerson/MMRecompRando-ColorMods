@@ -57,3 +57,6 @@ extern Color_RGB8 clockFinalHoursColor;
 extern Color_RGB8 mapColor;
 extern Color_RGB8 mapPlayerColor;
 extern Color_RGB8 mapEntranceColor;
+
+// Ocarina playback colors 
+extern Color_RGB8 trebleClefColor;
