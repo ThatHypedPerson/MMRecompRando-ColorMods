@@ -324,12 +324,18 @@ RECOMP_PATCH void FileSelect_DrawFileInfo(GameState* thisx, s16 fileIndex) {
 
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
-        gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, sFileSelRupeePrimColors[this->walletUpgrades[sp20C]][0],
-                        sFileSelRupeePrimColors[this->walletUpgrades[sp20C]][1],
-                        sFileSelRupeePrimColors[this->walletUpgrades[sp20C]][2], this->fileInfoAlpha[fileIndex]);
-        gDPSetEnvColor(POLY_OPA_DISP++, sFileSelRupeeEnvColors[this->walletUpgrades[sp20C]][0],
-                       sFileSelRupeeEnvColors[this->walletUpgrades[sp20C]][1],
-                       sFileSelRupeeEnvColors[this->walletUpgrades[sp20C]][2], 255);
+        // gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, sFileSelRupeePrimColors[this->walletUpgrades[sp20C]][0],
+        //                 sFileSelRupeePrimColors[this->walletUpgrades[sp20C]][1],
+        //                 sFileSelRupeePrimColors[this->walletUpgrades[sp20C]][2], this->fileInfoAlpha[fileIndex]);
+        // gDPSetEnvColor(POLY_OPA_DISP++, sFileSelRupeeEnvColors[this->walletUpgrades[sp20C]][0],
+        //                sFileSelRupeeEnvColors[this->walletUpgrades[sp20C]][1],
+        //                sFileSelRupeeEnvColors[this->walletUpgrades[sp20C]][2], 255);
+        gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, walletColors[this->walletUpgrades[sp20C]][0].r,
+                        walletColors[this->walletUpgrades[sp20C]][0].g,
+                        walletColors[this->walletUpgrades[sp20C]][0].b, this->fileInfoAlpha[fileIndex]);
+        gDPSetEnvColor(POLY_OPA_DISP++, walletColors[this->walletUpgrades[sp20C]][1].r,
+                       walletColors[this->walletUpgrades[sp20C]][1].g,
+                       walletColors[this->walletUpgrades[sp20C]][1].b, 255);
 
         gSPVertex(POLY_OPA_DISP++, &this->windowContentVtx[D_80814654[fileIndex] + 0xC8], 4, 0);
 

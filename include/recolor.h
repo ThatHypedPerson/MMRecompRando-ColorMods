@@ -36,3 +36,19 @@ extern Color_RGB8 pauseMenuMaskColor;
 extern Color_RGB8 fileWindowColor;
 extern Color_RGB8 fileSkyboxColor;
 extern bool recolorFileSkybox;
+
+// Wallet colors
+extern Color_RGB8 walletColors[3][2];
+
+// Clock colors
+extern Color_RGB8 clockUninvertedColor;
+extern Color_RGB8 clockInvertedColorBright;
+extern Color_RGB8 clockInvertedColor;
+extern Color_RGB8 clockDayColor;
+extern Color_RGB8 clockHourColor;
+extern Color_RGB8 clockSunColor;
+extern Color_RGB8 clockMoonColor;
+extern Color_RGB8 clockCenterStarColor;
+extern Color_RGB8 clockBorderColor;
+extern Color_RGB8 clockHourLinesColor;
+extern Color_RGB8 clockFinalHoursColor;

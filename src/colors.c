@@ -41,3 +41,28 @@ Color_RGB8 pauseMenuMaskColor = {180, 180, 120};
 Color_RGB8 fileWindowColor = {100, 150, 255};
 Color_RGB8 fileSkyboxColor = {255, 255, 255};
 bool recolorFileSkybox = false;
+
+// Wallet colors
+// note: {prim, env}, i'm not sure if the env color is visible though
+Color_RGB8 walletColors[3][2] = {
+	{{200, 255, 100}, {0, 80, 0}},		// child wallet
+	{{170, 170, 255}, {10, 10, 80}},	// adult wallet
+	{{255, 105, 105}, {40, 10, 0}},		// giant wallet
+};
+
+// Clock UI colors
+Color_RGB8 clockUninvertedColor = {0, 170, 100};
+Color_RGB8 clockInvertedColor = {0, 155, 255};		// mmr inverted B?
+Color_RGB8 clockDayColor = {255, 255, 155};
+Color_RGB8 clockHourColor = {255, 255, 155};
+Color_RGB8 clockSunColor = {255, 100, 110};
+Color_RGB8 clockMoonColor = {255, 255, 55};
+Color_RGB8 clockCenterStarColor = {255, 255, 110};
+Color_RGB8 clockBorderColor = {255, 255, 255};
+Color_RGB8 clockHourLinesColor = {130, 130, 130};
+Color_RGB8 clockFinalHoursColor = {255, 255, 195};
+
+// Map colors
+Color_RGB8 mapColor = {};
+Color_RGB8 mapPlayer = {};
+Color_RGB8 mapEntrance = {};
