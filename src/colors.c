@@ -181,3 +181,93 @@ RECOMP_EXPORT void colors_set_pause_mask(u8 r, u8 g, u8 b) {
 	pauseMenuMaskColor.g = g;
 	pauseMenuMaskColor.b = b;
 }
+
+RECOMP_EXPORT void colors_set_file_window_color(u8 r, u8 g, u8 b) {
+    fileWindowColor.r = r;
+    fileWindowColor.g = g;
+    fileWindowColor.b = b;
+}
+
+RECOMP_EXPORT void colors_set_file_skybox_color(u8 r, u8 g, u8 b) {
+    fileSkyboxColor.r = r;
+    fileSkyboxColor.g = g;
+    fileSkyboxColor.b = b;
+}
+
+RECOMP_EXPORT void colors_set_clock_uninverted_color(u8 r, u8 g, u8 b) {
+    clockUninvertedColor.r = r;
+    clockUninvertedColor.g = g;
+    clockUninvertedColor.b = b;
+}
+
+RECOMP_EXPORT void colors_set_clock_inverted_color(u8 r, u8 g, u8 b) {
+    clockInvertedColor.r = r;
+    clockInvertedColor.g = g;
+    clockInvertedColor.b = b;
+}
+
+RECOMP_EXPORT void colors_set_clock_day_color(u8 r, u8 g, u8 b) {
+    clockDayColor.r = r;
+    clockDayColor.g = g;
+    clockDayColor.b = b;
+}
+
+RECOMP_EXPORT void colors_set_clock_hour_color(u8 r, u8 g, u8 b) {
+    clockHourColor.r = r;
+    clockHourColor.g = g;
+    clockHourColor.b = b;
+}
+
+RECOMP_EXPORT void colors_set_clock_sun_color(u8 r, u8 g, u8 b) {
+    clockSunColor.r = r;
+    clockSunColor.g = g;
+    clockSunColor.b = b;
+}
+
+RECOMP_EXPORT void colors_set_clock_moon_color(u8 r, u8 g, u8 b) {
+    clockMoonColor.r = r;
+    clockMoonColor.g = g;
+    clockMoonColor.b = b;
+}
+
+RECOMP_EXPORT void colors_set_clock_center_star_color(u8 r, u8 g, u8 b) {
+    clockCenterStarColor.r = r;
+    clockCenterStarColor.g = g;
+    clockCenterStarColor.b = b;
+}
+
+RECOMP_EXPORT void colors_set_clock_border_color(u8 r, u8 g, u8 b) {
+    clockBorderColor.r = r;
+    clockBorderColor.g = g;
+    clockBorderColor.b = b;
+}
+
+RECOMP_EXPORT void colors_set_clock_hour_lines_color(u8 r, u8 g, u8 b) {
+    clockHourLinesColor.r = r;
+    clockHourLinesColor.g = g;
+    clockHourLinesColor.b = b;
+}
+
+RECOMP_EXPORT void colors_set_clock_final_hours_color(u8 r, u8 g, u8 b) {
+    clockFinalHoursColor.r = r;
+    clockFinalHoursColor.g = g;
+    clockFinalHoursColor.b = b;
+}
+
+RECOMP_EXPORT void colors_set_map_color(u8 r, u8 g, u8 b) {
+    mapColor.r = r;
+    mapColor.g = g;
+    mapColor.b = b;
+}
+
+RECOMP_EXPORT void colors_set_map_player_color(u8 r, u8 g, u8 b) {
+    mapPlayerColor.r = r;
+    mapPlayerColor.g = g;
+    mapPlayerColor.b = b;
+}
+
+RECOMP_EXPORT void colors_set_map_entrance_color(u8 r, u8 g, u8 b) {
+    mapEntranceColor.r = r;
+    mapEntranceColor.g = g;
+    mapEntranceColor.b = b;
+}
