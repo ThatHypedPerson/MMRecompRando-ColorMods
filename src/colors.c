@@ -21,7 +21,7 @@ Color_RGB8 heartDDBackgroundColor = {255, 255, 255};
 
 // Magic Colors
 Color_RGB8 magicColor = {0, 200, 0};
-Color_RGB8 magicChateauColor = {128, 128, 200};
+Color_RGB8 magicChateauColor = {0, 0, 200};
 
 // Tatl Colors
 // note: there are different colors for every Tatl interaction, we set them all to be the same though
@@ -66,7 +66,7 @@ Color_RGB8 clockHourLinesColor = {130, 130, 130};
 Color_RGB8 clockFinalHoursColor = {255, 255, 195};
 
 // Map colors
-Color_RGB8 mapColor = {255, 255, 255}; // note: there's actually slightly different map colors, but we ignore them
+Color_RGB8 mapColor = {0, 255, 255}; // note: there's actually slightly different map colors, but we ignore them
 Color_RGB8 mapPlayerColor = {200, 255, 0};
 Color_RGB8 mapEntranceColor = {200, 0, 0};
 
