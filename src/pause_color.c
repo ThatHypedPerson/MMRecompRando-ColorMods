@@ -37,10 +37,10 @@ typedef enum {
     /* 0x1B */ PAUSE_STATE_UNPAUSE_CLOSE
 } PauseState;
 
-s16 sGameOverPrimR = 0;
-s16 sGameOverPrimG = 0;
-s16 sGameOverPrimB = 0;
-s16 sGameOverPrimAlpha = 255;
+extern s16 sGameOverPrimR;
+extern s16 sGameOverPrimG;
+extern s16 sGameOverPrimB;
+extern s16 sGameOverPrimAlpha;
 // s16 sCursorPrimR = 0;
 // s16 sCursorPrimG = 0;
 // s16 sCursorPrimB = 0;
@@ -53,16 +53,18 @@ extern s16 sCursorPrimB;
 extern s16 sCursorEnvR;
 extern s16 sCursorEnvG;
 extern s16 sCursorEnvB;
-s16 sGameOverEnvR = 255;
-s16 sGameOverEnvG = 0;
-s16 sGameOverEnvB = 0;
+extern s16 sGameOverEnvR;
+extern s16 sGameOverEnvG;
+extern s16 sGameOverEnvB;
 // TODO: add cursor colors
-s16 sCursorPrimColorTarget[][3] = {
-    { 255, 255, 255 }, { 255, 255, 255 }, { 255, 255, 0 }, { 255, 255, 0 }, { 100, 150, 255 }, { 100, 255, 255 },
-};
-s16 sCursorEnvColorTarget[][3] = {
-    { 0, 0, 0 }, { 170, 170, 170 }, { 0, 0, 0 }, { 255, 160, 0 }, { 0, 0, 100 }, { 0, 150, 255 },
-};
+// s16 sCursorPrimColorTarget[][3] = {
+//     { 255, 255, 255 }, { 255, 255, 255 }, { 255, 255, 0 }, { 255, 255, 0 }, { 100, 150, 255 }, { 100, 255, 255 },
+// };
+// s16 sCursorEnvColorTarget[][3] = {
+//     { 0, 0, 0 }, { 170, 170, 170 }, { 0, 0, 0 }, { 255, 160, 0 }, { 0, 0, 100 }, { 0, 150, 255 },
+// };
+extern s16 sCursorPrimColorTarget[][3];
+extern s16 sCursorEnvColorTarget[][3];
 
 typedef enum {
     /* 0 */ PAUSE_ITEM,
@@ -72,17 +74,17 @@ typedef enum {
     /* 4 */ PAUSE_WORLD_MAP
 } PauseMenuPage;
 
-f32 sPauseMenuVerticalOffset = 0.0f;
-f32 D_8082B90C = 0.0f;
-f32 sPauseCursorLeftMoveOffsetX = 40.0f;
-f32 sPauseCursorRightMoveOffsetX = -40.0f;
+extern f32 sPauseMenuVerticalOffset;
+extern f32 D_8082B90C;
+extern f32 sPauseCursorLeftMoveOffsetX;
+extern f32 sPauseCursorRightMoveOffsetX;
 
 extern s16 sPauseCursorLeftX;
 extern s16 sPauseCursorRightX;
 
-s16 D_8082B920 = 10;
+extern s16 D_8082B920;
 
-s16 sPauseZRCursorColorTimerInits[] = { 20, 4, 20, 10 };
+extern s16 sPauseZRCursorColorTimerInits[];
 
 extern TexturePtr sItemPageBgTextures[];
 extern TexturePtr sMapPageBgTextures[];

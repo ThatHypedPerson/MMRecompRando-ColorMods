@@ -156,7 +156,7 @@ RECOMP_PATCH void Message_DrawTextboxIcon(PlayState* play, Gfx** gfxP, s16 x, s1
         };
         Color_RGB16 sIconEnvColors[] = {
             { 0, 0, 0 },
-            { 255, 255, 255 },
+            { 130, 130, 130 },
         };
         s16 sIconPrimR = buttonAColor.r;
         s16 sIconPrimG = buttonAColor.g;
