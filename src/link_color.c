@@ -6,6 +6,8 @@
 
 #include "z64player.h"
 
+extern Gfx gLinkDekuWaistDL[];
+
 RECOMP_CALLBACK("*", recomp_on_play_init)
 void replaceLinkModels() {
     // human replacement
@@ -13,6 +15,11 @@ void replaceLinkModels() {
     sPlayerFirstPersonRightShoulderDLs[PLAYER_FORM_HUMAN] = &gLinkHumanRightShoulderModifiedDL;
     gPlayerWaistDLs[PLAYER_FORM_HUMAN * 2 + 0] = &gLinkHumanWaistModifiedDL;
     gPlayerWaistDLs[PLAYER_FORM_HUMAN * 2 + 1] = &gLinkHumanWaistModifiedDL;
+
+    // deku replacement
+    gPlayerSkeletons[PLAYER_FORM_DEKU] = &gLinkDekuSkelMod;
+    gPlayerWaistDLs[PLAYER_FORM_DEKU * 2 + 0] = &gLinkDekuWaistModifiedDL;
+    gPlayerWaistDLs[PLAYER_FORM_DEKU * 2 + 1] = &gLinkDekuWaistModifiedDL;
 }
 
 void updateFormColor(PlayState* play, s32 limbIndex, Gfx** dList, PlayerTransformation form)
@@ -23,6 +30,9 @@ void updateFormColor(PlayState* play, s32 limbIndex, Gfx** dList, PlayerTransfor
     switch (player->transformation) {
         case PLAYER_FORM_HUMAN:
             color = &humanTunicColor;
+            break;
+        case PLAYER_FORM_DEKU:
+            color = &dekuTunicColor;
             break;
     }
     

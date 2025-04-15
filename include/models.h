@@ -15,3 +15,9 @@ extern Gfx gLinkHumanLeftShoulderModifiedDL;
 extern Gfx gLinkHumanRightShoulderModifiedDL;
 extern Gfx gLinkHumanTorsoModifiedDL;
 extern FlexSkeletonHeader gLinkHumanSkelMod;
+
+// deku link
+extern Gfx gLinkDekuWaistModifiedDL;
+extern Gfx gLinkDekuHeadModifiedDL;
+extern Gfx gLinkDekuHatModifiedDL;
+extern FlexSkeletonHeader gLinkDekuSkelMod;
