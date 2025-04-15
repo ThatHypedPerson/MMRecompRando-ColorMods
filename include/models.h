@@ -21,3 +21,10 @@ extern Gfx gLinkDekuWaistModifiedDL;
 extern Gfx gLinkDekuHeadModifiedDL;
 extern Gfx gLinkDekuHatModifiedDL;
 extern FlexSkeletonHeader gLinkDekuSkelMod;
+
+// goron link
+extern Gfx gLinkGoronWaistModifiedDL;
+extern Gfx gLinkGoronHatModifiedDL;
+extern Gfx gLinkGoronCurledModifiedDL;
+extern Gfx gLinkGoronRollingSpikesAndEffectModifiedDL;
+extern FlexSkeletonHeader gLinkGoronSkelMod;

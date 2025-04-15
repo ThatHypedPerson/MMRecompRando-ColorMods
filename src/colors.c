@@ -5,6 +5,7 @@
 // Player transformation colors
 Color_RGB8 humanTunicColor = {30, 105, 27};
 Color_RGB8 dekuTunicColor = {0, 181, 57};
+Color_RGB8 goronTunicColor = {0, 173, 49};
 
 // Button Colors
 Color_RGB8 buttonAColor = {100, 200, 255};

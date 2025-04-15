@@ -6,7 +6,12 @@
 
 #include "z64player.h"
 
-extern Gfx gLinkDekuWaistDL[];
+// alternate goron form
+typedef struct {
+    /* 0x0 */ Color_RGB8 color;
+    /* 0x4 */ Gfx* dList;
+} struct_801BFDD0; // size = 0x8
+extern struct_801BFDD0 D_801BFDD0[];
 
 RECOMP_CALLBACK("*", recomp_on_play_init)
 void replaceLinkModels() {
@@ -20,9 +25,16 @@ void replaceLinkModels() {
     gPlayerSkeletons[PLAYER_FORM_DEKU] = &gLinkDekuSkelMod;
     gPlayerWaistDLs[PLAYER_FORM_DEKU * 2 + 0] = &gLinkDekuWaistModifiedDL;
     gPlayerWaistDLs[PLAYER_FORM_DEKU * 2 + 1] = &gLinkDekuWaistModifiedDL;
+
+    // goron replacement
+    gPlayerSkeletons[PLAYER_FORM_GORON] = &gLinkGoronSkelMod;
+    gPlayerWaistDLs[PLAYER_FORM_GORON * 2 + 0] = &gLinkGoronWaistModifiedDL;
+    gPlayerWaistDLs[PLAYER_FORM_GORON * 2 + 1] = &gLinkGoronWaistModifiedDL;
+    D_801BFDD0[0].dList = &gLinkGoronCurledModifiedDL; // ?
+    D_801BFDD0[1].dList = &gLinkGoronRollingSpikesAndEffectModifiedDL; // ?
 }
 
-void updateFormColor(PlayState* play, s32 limbIndex, Gfx** dList, PlayerTransformation form)
+void updateFormColor(PlayState* play, PlayerTransformation form)
 {
     Color_RGB8* color;
     Player* player = GET_PLAYER(play);
@@ -33,6 +45,9 @@ void updateFormColor(PlayState* play, s32 limbIndex, Gfx** dList, PlayerTransfor
             break;
         case PLAYER_FORM_DEKU:
             color = &dekuTunicColor;
+            break;
+        case PLAYER_FORM_GORON:
+            color = &goronTunicColor;
             break;
     }
     
@@ -47,11 +62,11 @@ void func_80125CE0(Player* player, struct_80124618* arg1, Vec3f* pos, Vec3s* rot
 RECOMP_HOOK("Player_OverrideLimbDrawGameplayDefault")
 void Recolor_OverrideLimbDrawDefault(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor) {
     Player* player = (Player*)actor;
-    updateFormColor(play, limbIndex, dList, player->transformation);
+    updateFormColor(play, player->transformation);
 }
 
 RECOMP_HOOK("Player_OverrideLimbDrawGameplayFirstPerson")
 void Recolor_OverrideLimbDrawFirstPerson(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor) {
     Player* player = (Player*)actor;
-    updateFormColor(play, limbIndex, dList, player->transformation);
+    updateFormColor(play, player->transformation);
 }

@@ -1,6 +1,7 @@
 // Player transformation colors
 extern Color_RGB8 humanTunicColor;
 extern Color_RGB8 dekuTunicColor;
+extern Color_RGB8 goronTunicColor;
 
 // Button Colors
 extern Color_RGB8 buttonAColor;
