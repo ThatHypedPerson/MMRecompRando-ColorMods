@@ -32,6 +32,11 @@ void replaceLinkModels() {
     gPlayerWaistDLs[PLAYER_FORM_GORON * 2 + 1] = &gLinkGoronWaistModifiedDL;
     D_801BFDD0[0].dList = &gLinkGoronCurledModifiedDL; // ?
     D_801BFDD0[1].dList = &gLinkGoronRollingSpikesAndEffectModifiedDL; // ?
+
+    // zora replacement
+    gPlayerSkeletons[PLAYER_FORM_ZORA] = &gLinkZoraSkelMod;
+    gPlayerWaistDLs[PLAYER_FORM_ZORA * 2 + 0] = &gLinkZoraWaistModifiedDL;
+    gPlayerWaistDLs[PLAYER_FORM_ZORA * 2 + 1] = &gLinkZoraWaistModifiedDL;
 }
 
 void updateFormColor(PlayState* play, PlayerTransformation form)
@@ -48,6 +53,9 @@ void updateFormColor(PlayState* play, PlayerTransformation form)
             break;
         case PLAYER_FORM_GORON:
             color = &goronTunicColor;
+            break;
+        case PLAYER_FORM_ZORA:
+            color = &zoraTunicColor;
             break;
     }
     

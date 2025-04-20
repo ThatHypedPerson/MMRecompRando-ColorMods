@@ -2,6 +2,7 @@
 extern Color_RGB8 humanTunicColor;
 extern Color_RGB8 dekuTunicColor;
 extern Color_RGB8 goronTunicColor;
+extern Color_RGB8 zoraTunicColor;
 
 // Button Colors
 extern Color_RGB8 buttonAColor;

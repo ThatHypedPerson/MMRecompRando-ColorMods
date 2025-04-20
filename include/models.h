@@ -28,3 +28,7 @@ extern Gfx gLinkGoronHatModifiedDL;
 extern Gfx gLinkGoronCurledModifiedDL;
 extern Gfx gLinkGoronRollingSpikesAndEffectModifiedDL;
 extern FlexSkeletonHeader gLinkGoronSkelMod;
+
+// zora link
+extern Gfx gLinkZoraWaistModifiedDL;
+extern FlexSkeletonHeader gLinkZoraSkelMod;
