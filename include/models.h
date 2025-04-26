@@ -34,6 +34,15 @@ extern FlexSkeletonHeader gLinkGoronSkelMod;
 extern Gfx gLinkZoraWaistModifiedDL;
 extern FlexSkeletonHeader gLinkZoraSkelMod;
 
+// fierce deity
+extern Gfx gLinkFierceDeityRightThighModifiedDL;
+extern Gfx gLinkFierceDeityLeftThighModifiedDL;
+extern Gfx gLinkFierceDeityHatModifiedDL;
+extern Gfx gLinkFierceDeityHeadModifiedDL;
+extern Gfx gLinkFierceDeityRightShoulderModifiedDL;
+extern Gfx gLinkFierceDeityLeftShoulderModifiedDL;
+extern FlexSkeletonHeader gLinkFierceDeitySkelMod;
+
 // VANILLA
 // human link
 extern Gfx gLinkHumanWaistDL;
@@ -63,3 +72,12 @@ extern FlexSkeletonHeader gLinkGoronSkel;
 // zora link
 extern Gfx gLinkZoraWaistDL;
 extern FlexSkeletonHeader gLinkZoraSkel;
+
+// fierce deity
+extern Gfx gLinkFierceDeityRightThighDL;
+extern Gfx gLinkFierceDeityLeftThighDL;
+extern Gfx gLinkFierceDeityHatDL;
+extern Gfx gLinkFierceDeityHeadDL;
+extern Gfx gLinkFierceDeityRightShoulderDL;
+extern Gfx gLinkFierceDeityLeftShoulderDL;
+extern FlexSkeletonHeader gLinkFierceDeitySkel;

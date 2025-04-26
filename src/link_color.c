@@ -68,7 +68,9 @@ void on_game_update() {
 
     // fd replacement
     if (recomp_get_config_u32("replace_fd")) {
-        // TODO
+        gPlayerSkeletons[PLAYER_FORM_FIERCE_DEITY] = &gLinkFierceDeitySkelMod;
+    } else {
+        gPlayerSkeletons[PLAYER_FORM_FIERCE_DEITY] = &gLinkFierceDeitySkel;
     }
 }
 
@@ -89,6 +91,9 @@ void updateFormColor(PlayState* play, PlayerTransformation form)
             break;
         case PLAYER_FORM_ZORA:
             color = &zoraTunicColor;
+            break;
+        case PLAYER_FORM_FIERCE_DEITY:
+            color = &fdTunicColor;
             break;
     }
     
