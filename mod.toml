@@ -62,28 +62,85 @@ data_reference_syms_files = [ "Zelda64RecompSyms/mm.us.rev1.datasyms.toml", "Zel
 additional_files = [ ]
 
 [[manifest.config_options]]
-id = "enum_option"
-name = "Enum Option"
-description = "Test enum config option"
+id = "replace_human"
+name = "Replace Human Link"
+description = """
+Replaces the Human Link model.
+
+This mod works by replacing the models for each of the transformations.
+Only disable this if you are using a custom model/want the original model.
+You will need to reload your player for this to take effect."""
 type = "Enum"
-options = [ "First", "Second" ]
-default = "First"
+options = [ "Off", "On" ]
+default = "On"
 
 [[manifest.config_options]]
-id = "number_option"
-name = "Number Option"
-description = "Test number config option."
-type = "Number"
-min = 0
-max = 10
-step = 0.1
-precision = 1
-percent = false
-default = 1
+id = "replace_deku"
+name = "Replace Deku Link"
+description = """
+Replaces the Deku Link model.
+
+This mod works by replacing the models for each of the transformations.
+Only disable this if you are using a custom model/want the original model.
+You will need to reload your player for this to take effect."""
+type = "Enum"
+options = [ "Off", "On" ]
+default = "On"
 
 [[manifest.config_options]]
-id = "string_option"
-name = "String Option"
-description = "Test string config option."
-type = "String"
-default = "Lorem Ipsum"
+id = "replace_goron"
+name = "Replace Goron Link"
+description = """
+Replaces the Goron Link models.
+
+This mod works by replacing the models for each of the transformations.
+Only disable this if you are using a custom model/want the original model.
+You will need to reload your player for this to take effect."""
+type = "Enum"
+options = [ "Off", "On" ]
+default = "On"
+
+[[manifest.config_options]]
+id = "replace_zora"
+name = "Replace Zora Link"
+description = """
+Replaces the Zora Link model.
+
+This mod works by replacing the models for each of the transformations.
+Only disable this if you are using a custom model/want the original model.
+You will need to reload your player for this to take effect."""
+type = "Enum"
+options = [ "Off", "On" ]
+default = "On"
+
+[[manifest.config_options]]
+id = "replace_fd"
+name = "Replace Fierce Deity"
+description = """
+Replaces the Fierce Deity model.
+
+This mod works by replacing the models for each of the transformations.
+Only disable this if you are using a custom model/want the original model.
+You will need to reload your player for this to take effect."""
+type = "Enum"
+options = [ "Off", "On" ]
+default = "On"
+
+# [[manifest.config_options]]
+# id = "number_option"
+# name = "Number Option"
+# description = "Test number config option."
+# type = "Number"
+# min = 0
+# max = 10
+# step = 0.1
+# precision = 1
+# percent = false
+# default = 1
+
+# [[manifest.config_options]]
+# id = "string_option"
+# name = "String Option"
+# description = "Test string config option."
+# type = "String"
+# default = "FF0000"

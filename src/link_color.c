@@ -1,5 +1,6 @@
 #include "modding.h"
 #include "global.h"
+#include "recompconfig.h"
 
 #include "recolor.h"
 #include "models.h"
@@ -13,30 +14,62 @@ typedef struct {
 } struct_801BFDD0; // size = 0x8
 extern struct_801BFDD0 D_801BFDD0[];
 
-RECOMP_CALLBACK("*", recomp_on_play_init)
-void replaceLinkModels() {
+RECOMP_HOOK("GameState_Update")
+void on_game_update() {
     // human replacement
-    gPlayerSkeletons[PLAYER_FORM_HUMAN] = &gLinkHumanSkelMod;
-    sPlayerFirstPersonRightShoulderDLs[PLAYER_FORM_HUMAN] = &gLinkHumanRightShoulderModifiedDL;
-    gPlayerWaistDLs[PLAYER_FORM_HUMAN * 2 + 0] = &gLinkHumanWaistModifiedDL;
-    gPlayerWaistDLs[PLAYER_FORM_HUMAN * 2 + 1] = &gLinkHumanWaistModifiedDL;
+    if (recomp_get_config_u32("replace_human")) {
+        gPlayerSkeletons[PLAYER_FORM_HUMAN] = &gLinkHumanSkelMod;
+        sPlayerFirstPersonRightShoulderDLs[PLAYER_FORM_HUMAN] = &gLinkHumanRightShoulderModifiedDL;
+        gPlayerWaistDLs[PLAYER_FORM_HUMAN * 2 + 0] = &gLinkHumanWaistModifiedDL;
+        gPlayerWaistDLs[PLAYER_FORM_HUMAN * 2 + 1] = &gLinkHumanWaistModifiedDL;
+    } else {
+        gPlayerSkeletons[PLAYER_FORM_HUMAN] = &gLinkHumanSkel;
+        sPlayerFirstPersonRightShoulderDLs[PLAYER_FORM_HUMAN] = &gLinkHumanRightShoulderDL;
+        gPlayerWaistDLs[PLAYER_FORM_HUMAN * 2 + 0] = &gLinkHumanWaistDL;
+        gPlayerWaistDLs[PLAYER_FORM_HUMAN * 2 + 1] = &gLinkHumanWaistDL;
+    }
 
     // deku replacement
-    gPlayerSkeletons[PLAYER_FORM_DEKU] = &gLinkDekuSkelMod;
-    gPlayerWaistDLs[PLAYER_FORM_DEKU * 2 + 0] = &gLinkDekuWaistModifiedDL;
-    gPlayerWaistDLs[PLAYER_FORM_DEKU * 2 + 1] = &gLinkDekuWaistModifiedDL;
+    if (recomp_get_config_u32("replace_deku")) {
+        gPlayerSkeletons[PLAYER_FORM_DEKU] = &gLinkDekuSkelMod;
+        gPlayerWaistDLs[PLAYER_FORM_DEKU * 2 + 0] = &gLinkDekuWaistModifiedDL;
+        gPlayerWaistDLs[PLAYER_FORM_DEKU * 2 + 1] = &gLinkDekuWaistModifiedDL;
+    } else {
+        gPlayerSkeletons[PLAYER_FORM_DEKU] = &gLinkDekuSkel;
+        gPlayerWaistDLs[PLAYER_FORM_DEKU * 2 + 0] = &gLinkDekuWaistDL;
+        gPlayerWaistDLs[PLAYER_FORM_DEKU * 2 + 1] = &gLinkDekuWaistDL;
+    }
 
     // goron replacement
-    gPlayerSkeletons[PLAYER_FORM_GORON] = &gLinkGoronSkelMod;
-    gPlayerWaistDLs[PLAYER_FORM_GORON * 2 + 0] = &gLinkGoronWaistModifiedDL;
-    gPlayerWaistDLs[PLAYER_FORM_GORON * 2 + 1] = &gLinkGoronWaistModifiedDL;
-    D_801BFDD0[0].dList = &gLinkGoronCurledModifiedDL; // ?
-    D_801BFDD0[1].dList = &gLinkGoronRollingSpikesAndEffectModifiedDL; // ?
+    if (recomp_get_config_u32("replace_goron")) {
+        gPlayerSkeletons[PLAYER_FORM_GORON] = &gLinkGoronSkelMod;
+        gPlayerWaistDLs[PLAYER_FORM_GORON * 2 + 0] = &gLinkGoronWaistModifiedDL;
+        gPlayerWaistDLs[PLAYER_FORM_GORON * 2 + 1] = &gLinkGoronWaistModifiedDL;
+        D_801BFDD0[0].dList = &gLinkGoronCurledModifiedDL; // ?
+        D_801BFDD0[1].dList = &gLinkGoronRollingSpikesAndEffectModifiedDL; // ?
+    } else {
+        gPlayerSkeletons[PLAYER_FORM_GORON] = &gLinkGoronSkel;
+        gPlayerWaistDLs[PLAYER_FORM_GORON * 2 + 0] = &gLinkGoronWaistDL;
+        gPlayerWaistDLs[PLAYER_FORM_GORON * 2 + 1] = &gLinkGoronWaistDL;
+        D_801BFDD0[0].dList = &gLinkGoronCurledDL; // ?
+        D_801BFDD0[1].dList = &gLinkGoronRollingSpikesAndEffectDL; // ?
+    }
 
     // zora replacement
-    gPlayerSkeletons[PLAYER_FORM_ZORA] = &gLinkZoraSkelMod;
-    gPlayerWaistDLs[PLAYER_FORM_ZORA * 2 + 0] = &gLinkZoraWaistModifiedDL;
-    gPlayerWaistDLs[PLAYER_FORM_ZORA * 2 + 1] = &gLinkZoraWaistModifiedDL;
+    if (recomp_get_config_u32("replace_zora")) {
+        gPlayerSkeletons[PLAYER_FORM_ZORA] = &gLinkZoraSkelMod;
+        gPlayerWaistDLs[PLAYER_FORM_ZORA * 2 + 0] = &gLinkZoraWaistModifiedDL;
+        gPlayerWaistDLs[PLAYER_FORM_ZORA * 2 + 1] = &gLinkZoraWaistModifiedDL;
+    } else {
+        gPlayerSkeletons[PLAYER_FORM_ZORA] = &gLinkZoraSkel;
+        gPlayerWaistDLs[PLAYER_FORM_ZORA * 2 + 0] = &gLinkZoraWaistDL;
+        gPlayerWaistDLs[PLAYER_FORM_ZORA * 2 + 1] = &gLinkZoraWaistDL;
+    }
+
+    // fd replacement
+    if (recomp_get_config_u32("replace_fd")) {
+        // TODO
+    }
 }
 
 void updateFormColor(PlayState* play, PlayerTransformation form)
