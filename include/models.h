@@ -31,8 +31,14 @@ extern Gfx gLinkGoronRollingSpikesAndEffectModifiedDL;
 extern FlexSkeletonHeader gLinkGoronSkelMod;
 
 // zora link
+extern Gfx gLinkZoraRightThighModifiedDL;
+extern Gfx gLinkZoraLeftThighModifiedDL;
 extern Gfx gLinkZoraWaistModifiedDL;
+extern Gfx gLinkZoraHeadModifiedDL;
+extern Gfx gLinkZoraHatModifiedDL;
 extern FlexSkeletonHeader gLinkZoraSkelMod;
+// extern Gfx zoraBoomerangLeftModifiedDL;
+// extern Gfx zoraBoomerangRightModifiedDL;
 
 // fierce deity
 extern Gfx gLinkFierceDeityRightThighModifiedDL;
@@ -70,8 +76,27 @@ extern Gfx gLinkGoronRollingSpikesAndEffectDL;
 extern FlexSkeletonHeader gLinkGoronSkel;
 
 // zora link
+extern Gfx gLinkZoraRightThighDL;
+extern Gfx gLinkZoraLeftThighDL;
 extern Gfx gLinkZoraWaistDL;
+extern Gfx gLinkZoraHeadDL;
+extern Gfx gLinkZoraHatDL;
 extern FlexSkeletonHeader gLinkZoraSkel;
+// typedef struct {
+//     /* 0x00 */ Gfx* unk_00;
+//     /* 0x04 */ Vec3f unk_04;
+//     /* 0x10 */ Vec3f unk_10;
+// } EnBoomStruct; // size = 0x1C
+// extern EnBoomStruct D_808A3078[];
+// extern Gfx gameplay_keep_DL_06FE20;
+// extern Gfx gameplay_keep_DL_06FF68;
+// extern Gfx* D_801C0AB4[];
+// extern Gfx* D_801C0ABC[];
+// extern Gfx object_link_zora_DL_00CC38;
+// extern Gfx object_link_zora_DL_00CDA0;
+// extern Gfx object_link_zora_DL_010868;
+// extern Gfx object_link_zora_DL_010978;
+// extern Gfx object_link_zora_DL_0110A8;
 
 // fierce deity
 extern Gfx gLinkFierceDeityRightThighDL;
