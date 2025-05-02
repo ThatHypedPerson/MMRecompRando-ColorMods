@@ -36,9 +36,7 @@ extern u64 object_link_zora_Tex_005D00[];
 extern u64 object_link_zora_Tex_005F00[];
 extern Vtx object_link_zoraVtx_0062C0[];
 
-u64 human_link_tex_005D80[] = {
-#include "textures/tex_005D80.i8.inc.c"
-};
+u64 savedLink_005D80[16];
 
 u64 zora_base[] = {
 #include "textures/zora_base.inc"
@@ -66,7 +64,7 @@ Gfx gLinkZoraRightThighModifiedDL[] = {
     //                      G_TX_NOMIRROR | G_TX_WRAP, 3, 4, G_TX_NOLOD, G_TX_NOLOD),
     gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, TEXEL0, ENVIRONMENT, 0, COMBINED, 0, 0, 0, 0, COMBINED),
     gsDPSetTextureLUT(G_TT_NONE),
-    gsDPLoadTextureBlock(human_link_tex_005D80, G_IM_FMT_I, G_IM_SIZ_8b, 8, 16, 0, G_TX_MIRROR | G_TX_WRAP,
+    gsDPLoadTextureBlock(savedLink_005D80, G_IM_FMT_I, G_IM_SIZ_8b, 8, 16, 0, G_TX_MIRROR | G_TX_WRAP,
                          G_TX_NOMIRROR | G_TX_WRAP, 3, 4, G_TX_NOLOD, G_TX_NOLOD),
     gsDPSetPrimColor(0, 0x80, 255, 255, 255, 255),
     gsSPVertex(&object_link_zoraVtx_0062C0[113], 12, 12),
@@ -99,7 +97,7 @@ Gfx gLinkZoraRightThighModifiedDL[] = {
     //                      G_TX_NOMIRROR | G_TX_WRAP, 3, 4, G_TX_NOLOD, G_TX_NOLOD),
     gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, TEXEL0, ENVIRONMENT, 0, COMBINED, 0, 0, 0, 0, COMBINED),
     gsDPSetTextureLUT(G_TT_NONE),
-    gsDPLoadTextureBlock(human_link_tex_005D80, G_IM_FMT_I, G_IM_SIZ_8b, 8, 16, 0, G_TX_MIRROR | G_TX_WRAP,
+    gsDPLoadTextureBlock(savedLink_005D80, G_IM_FMT_I, G_IM_SIZ_8b, 8, 16, 0, G_TX_MIRROR | G_TX_WRAP,
                          G_TX_NOMIRROR | G_TX_WRAP, 3, 4, G_TX_NOLOD, G_TX_NOLOD),
     gsDPSetPrimColor(0, 0x80, 255, 255, 255, 255),
     gsSPVertex(&object_link_zoraVtx_0062C0[133], 5, 0),
@@ -138,7 +136,7 @@ Gfx gLinkZoraLeftThighModifiedDL[] = {
     //                      G_TX_NOMIRROR | G_TX_WRAP, 3, 4, G_TX_NOLOD, G_TX_NOLOD),
     gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, TEXEL0, ENVIRONMENT, 0, COMBINED, 0, 0, 0, 0, COMBINED),
     gsDPSetTextureLUT(G_TT_NONE),
-    gsDPLoadTextureBlock(human_link_tex_005D80, G_IM_FMT_I, G_IM_SIZ_8b, 8, 16, 0, G_TX_MIRROR | G_TX_WRAP,
+    gsDPLoadTextureBlock(savedLink_005D80, G_IM_FMT_I, G_IM_SIZ_8b, 8, 16, 0, G_TX_MIRROR | G_TX_WRAP,
                          G_TX_NOMIRROR | G_TX_WRAP, 3, 4, G_TX_NOLOD, G_TX_NOLOD),
     gsDPSetPrimColor(0, 0x80, 255, 255, 255, 255),
     gsSPVertex(&object_link_zoraVtx_0062C0[260], 12, 12),
@@ -171,7 +169,7 @@ Gfx gLinkZoraLeftThighModifiedDL[] = {
     //                      G_TX_NOMIRROR | G_TX_WRAP, 3, 4, G_TX_NOLOD, G_TX_NOLOD),
     gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, TEXEL0, ENVIRONMENT, 0, COMBINED, 0, 0, 0, 0, COMBINED),
     gsDPSetTextureLUT(G_TT_NONE),
-    gsDPLoadTextureBlock(human_link_tex_005D80, G_IM_FMT_I, G_IM_SIZ_8b, 8, 16, 0, G_TX_MIRROR | G_TX_WRAP,
+    gsDPLoadTextureBlock(savedLink_005D80, G_IM_FMT_I, G_IM_SIZ_8b, 8, 16, 0, G_TX_MIRROR | G_TX_WRAP,
                          G_TX_NOMIRROR | G_TX_WRAP, 3, 4, G_TX_NOLOD, G_TX_NOLOD),
     gsDPSetPrimColor(0, 0x80, 255, 255, 255, 255),
     gsSPVertex(&object_link_zoraVtx_0062C0[280], 5, 0),
@@ -217,7 +215,7 @@ Gfx gLinkZoraWaistModifiedDL[] = {
     //                      G_TX_NOMIRROR | G_TX_WRAP, 3, 4, G_TX_NOLOD, G_TX_NOLOD),
     gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, TEXEL0, ENVIRONMENT, 0, COMBINED, 0, 0, 0, 0, COMBINED),
     gsDPSetTextureLUT(G_TT_NONE),
-    gsDPLoadTextureBlock(human_link_tex_005D80, G_IM_FMT_I, G_IM_SIZ_8b, 8, 16, 0, G_TX_MIRROR | G_TX_WRAP,
+    gsDPLoadTextureBlock(savedLink_005D80, G_IM_FMT_I, G_IM_SIZ_8b, 8, 16, 0, G_TX_MIRROR | G_TX_WRAP,
                          G_TX_NOMIRROR | G_TX_WRAP, 3, 4, G_TX_NOLOD, G_TX_NOLOD),
     gsSPVertex(&object_link_zoraVtx_0062C0[316], 23, 0),
     gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),

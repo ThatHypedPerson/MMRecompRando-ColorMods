@@ -14,6 +14,20 @@ typedef struct {
 } struct_801BFDD0; // size = 0x8
 extern struct_801BFDD0 D_801BFDD0[];
 
+extern u64 savedLink_005C40[32];
+extern u64 savedLink_005D80[16];
+extern u64 object_link_child_Tex_005C40[];
+extern u64 object_link_child_Tex_005D80[];
+
+RECOMP_HOOK_RETURN("Player_Init")
+void load_textures(Actor* thisx, PlayState* play) {
+    // load original textures
+    if (GET_PLAYER_FORM == PLAYER_FORM_HUMAN && (savedLink_005C40[0] == 0 || savedLink_005D80[0] == 0)) {
+        Lib_MemCpy(savedLink_005C40, SEGMENTED_TO_K0(object_link_child_Tex_005C40), sizeof(savedLink_005C40));
+        Lib_MemCpy(savedLink_005D80, SEGMENTED_TO_K0(object_link_child_Tex_005D80), sizeof(savedLink_005D80));
+    }
+}
+
 RECOMP_HOOK("GameState_Update")
 void on_game_update() {
     // human replacement
@@ -77,9 +91,8 @@ void on_game_update() {
 void updateFormColor(PlayState* play, PlayerTransformation form)
 {
     Color_RGB8* color;
-    Player* player = GET_PLAYER(play);
 
-    switch (player->transformation) {
+    switch (form) {
         case PLAYER_FORM_HUMAN:
             color = &humanTunicColor;
             break;
@@ -94,6 +107,9 @@ void updateFormColor(PlayState* play, PlayerTransformation form)
             break;
         case PLAYER_FORM_FIERCE_DEITY:
             color = &fdTunicColor;
+            break;
+        default:
+            color = &humanTunicColor;
             break;
     }
     

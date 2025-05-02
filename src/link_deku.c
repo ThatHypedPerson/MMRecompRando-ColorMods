@@ -34,9 +34,7 @@ extern u64 object_link_nuts_Tex_0043B0[];
 extern u64 object_link_nuts_Tex_0044B0[];
 extern u64 object_link_nuts_Tex_0048B0[];
 
-u64 human_link_tex_005C40[] = {
-#include "textures/tex_005C40.i8.inc.c"
-};
+u64 savedLink_005C40[32];
 
 Gfx gLinkDekuWaistModifiedDL[] = {
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
@@ -66,7 +64,7 @@ Gfx gLinkDekuWaistModifiedDL[] = {
     //                      G_TX_NOMIRROR | G_TX_CLAMP, 4, 4, G_TX_NOLOD, G_TX_NOLOD),
     gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, TEXEL0, ENVIRONMENT, 0, COMBINED, 0, 0, 0, 0, COMBINED),
     gsDPSetTextureLUT(G_TT_NONE),
-    gsDPLoadTextureBlock(human_link_tex_005C40, G_IM_FMT_I, G_IM_SIZ_8b, 16, 16, 0, G_TX_NOMIRROR | G_TX_CLAMP,
+    gsDPLoadTextureBlock(savedLink_005C40, G_IM_FMT_I, G_IM_SIZ_8b, 16, 16, 0, G_TX_NOMIRROR | G_TX_CLAMP,
                          G_TX_NOMIRROR | G_TX_CLAMP, 4, 4, G_TX_NOLOD, G_TX_NOLOD),
     gsDPSetPrimColor(0, 0x80, 0, 181, 57, 255),
     gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_FOG | G_LIGHTING | G_SHADING_SMOOTH),
@@ -114,7 +112,7 @@ Gfx gLinkDekuHeadModifiedDL[] = {
     //                      G_TX_NOMIRROR | G_TX_CLAMP, 4, 4, G_TX_NOLOD, G_TX_NOLOD),
     gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, TEXEL0, ENVIRONMENT, 0, COMBINED, 0, 0, 0, 0, COMBINED),
     gsDPSetTextureLUT(G_TT_NONE),
-    gsDPLoadTextureBlock(human_link_tex_005C40, G_IM_FMT_I, G_IM_SIZ_8b, 16, 16, 0, G_TX_NOMIRROR | G_TX_CLAMP,
+    gsDPLoadTextureBlock(savedLink_005C40, G_IM_FMT_I, G_IM_SIZ_8b, 16, 16, 0, G_TX_NOMIRROR | G_TX_CLAMP,
                          G_TX_NOMIRROR | G_TX_CLAMP, 4, 4, G_TX_NOLOD, G_TX_NOLOD),
     gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_FOG | G_LIGHTING | G_SHADING_SMOOTH),
     gsSPDisplayList(0x0C000000),
@@ -222,7 +220,7 @@ Gfx gLinkDekuHatModifiedDL[] = {
     // gsDPSetPrimColor(0, 0x80, 255, 255, 255, 255),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, TEXEL0, ENVIRONMENT, 0, COMBINED, 0, 0, 0, 0, COMBINED),
     gsDPSetTextureLUT(G_TT_NONE),
-    gsDPLoadTextureBlock(human_link_tex_005C40, G_IM_FMT_I, G_IM_SIZ_8b, 16, 16, 0, G_TX_NOMIRROR | G_TX_CLAMP,
+    gsDPLoadTextureBlock(savedLink_005C40, G_IM_FMT_I, G_IM_SIZ_8b, 16, 16, 0, G_TX_NOMIRROR | G_TX_CLAMP,
                          G_TX_NOMIRROR | G_TX_CLAMP, 4, 4, G_TX_NOLOD, G_TX_NOLOD),
     gsDPSetPrimColor(0, 0x80, 0, 181, 57, 255),
     gsSPVertex(&object_link_nutsVtx_000000[171], 25, 7),
