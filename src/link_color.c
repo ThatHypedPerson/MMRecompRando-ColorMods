@@ -28,6 +28,12 @@ void load_textures(Actor* thisx, PlayState* play) {
     }
 }
 
+static bool human_changed;
+static bool deku_changed;
+static bool goron_changed;
+static bool zora_changed;
+static bool fd_changed;
+
 RECOMP_HOOK("GameState_Update")
 void on_game_update() {
     // human replacement
@@ -36,11 +42,13 @@ void on_game_update() {
         sPlayerFirstPersonRightShoulderDLs[PLAYER_FORM_HUMAN] = &gLinkHumanRightShoulderModifiedDL;
         gPlayerWaistDLs[PLAYER_FORM_HUMAN * 2 + 0] = &gLinkHumanWaistModifiedDL;
         gPlayerWaistDLs[PLAYER_FORM_HUMAN * 2 + 1] = &gLinkHumanWaistModifiedDL;
-    } else {
+        human_changed = true;
+    } else if (human_changed) {
         gPlayerSkeletons[PLAYER_FORM_HUMAN] = &gLinkHumanSkel;
         sPlayerFirstPersonRightShoulderDLs[PLAYER_FORM_HUMAN] = &gLinkHumanRightShoulderDL;
         gPlayerWaistDLs[PLAYER_FORM_HUMAN * 2 + 0] = &gLinkHumanWaistDL;
         gPlayerWaistDLs[PLAYER_FORM_HUMAN * 2 + 1] = &gLinkHumanWaistDL;
+        human_changed = false;
     }
 
     // deku replacement
@@ -48,10 +56,12 @@ void on_game_update() {
         gPlayerSkeletons[PLAYER_FORM_DEKU] = &gLinkDekuSkelMod;
         gPlayerWaistDLs[PLAYER_FORM_DEKU * 2 + 0] = &gLinkDekuWaistModifiedDL;
         gPlayerWaistDLs[PLAYER_FORM_DEKU * 2 + 1] = &gLinkDekuWaistModifiedDL;
-    } else {
+        deku_changed = true;
+    } else if (deku_changed) {
         gPlayerSkeletons[PLAYER_FORM_DEKU] = &gLinkDekuSkel;
         gPlayerWaistDLs[PLAYER_FORM_DEKU * 2 + 0] = &gLinkDekuWaistDL;
         gPlayerWaistDLs[PLAYER_FORM_DEKU * 2 + 1] = &gLinkDekuWaistDL;
+        deku_changed = false;
     }
 
     // goron replacement
@@ -61,12 +71,14 @@ void on_game_update() {
         gPlayerWaistDLs[PLAYER_FORM_GORON * 2 + 1] = &gLinkGoronWaistModifiedDL;
         D_801BFDD0[0].dList = &gLinkGoronCurledModifiedDL; // ?
         D_801BFDD0[1].dList = &gLinkGoronRollingSpikesAndEffectModifiedDL; // ?
-    } else {
+        goron_changed = true;
+    } else if (goron_changed) {
         gPlayerSkeletons[PLAYER_FORM_GORON] = &gLinkGoronSkel;
         gPlayerWaistDLs[PLAYER_FORM_GORON * 2 + 0] = &gLinkGoronWaistDL;
         gPlayerWaistDLs[PLAYER_FORM_GORON * 2 + 1] = &gLinkGoronWaistDL;
         D_801BFDD0[0].dList = &gLinkGoronCurledDL; // ?
         D_801BFDD0[1].dList = &gLinkGoronRollingSpikesAndEffectDL; // ?
+        goron_changed = false;
     }
 
     // zora replacement
@@ -74,17 +86,21 @@ void on_game_update() {
         gPlayerSkeletons[PLAYER_FORM_ZORA] = &gLinkZoraSkelMod;
         gPlayerWaistDLs[PLAYER_FORM_ZORA * 2 + 0] = &gLinkZoraWaistModifiedDL;
         gPlayerWaistDLs[PLAYER_FORM_ZORA * 2 + 1] = &gLinkZoraWaistModifiedDL;
-    } else {
+        zora_changed = true;
+    } else if (zora_changed) {
         gPlayerSkeletons[PLAYER_FORM_ZORA] = &gLinkZoraSkel;
         gPlayerWaistDLs[PLAYER_FORM_ZORA * 2 + 0] = &gLinkZoraWaistDL;
         gPlayerWaistDLs[PLAYER_FORM_ZORA * 2 + 1] = &gLinkZoraWaistDL;
+        zora_changed = false;
     }
 
     // fd replacement
     if (recomp_get_config_u32("replace_fd")) {
         gPlayerSkeletons[PLAYER_FORM_FIERCE_DEITY] = &gLinkFierceDeitySkelMod;
-    } else {
+        fd_changed = true;
+    } else if (fd_changed) {
         gPlayerSkeletons[PLAYER_FORM_FIERCE_DEITY] = &gLinkFierceDeitySkel;
+        fd_changed = false;
     }
 }
 
