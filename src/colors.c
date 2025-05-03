@@ -82,6 +82,18 @@ RECOMP_EXPORT void colors_set_human_tunic(u8 r, u8 g, u8 b) {
 	humanTunicColor.r = r;
 	humanTunicColor.g = g;
 	humanTunicColor.b = b;
+	dekuTunicColor.r = r;
+	dekuTunicColor.g = g;
+	dekuTunicColor.b = b;
+	goronTunicColor.r = r;
+	goronTunicColor.g = g;
+	goronTunicColor.b = b;
+	zoraTunicColor.r = r;
+	zoraTunicColor.g = g;
+	zoraTunicColor.b = b;
+	fdTunicColor.r = r;
+	fdTunicColor.g = g;
+	fdTunicColor.b = b;
 }
 
 RECOMP_EXPORT void colors_set_a_button(u8 r, u8 g, u8 b) {
