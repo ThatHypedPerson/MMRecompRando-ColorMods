@@ -24,8 +24,6 @@ void load_textures(Actor* thisx, PlayState* play) {
         Lib_MemCpy(savedLink_005C40, SEGMENTED_TO_K0(object_link_child_Tex_005C40), sizeof(savedLink_005C40));
         Lib_MemCpy(savedLink_005D80, SEGMENTED_TO_K0(object_link_child_Tex_005D80), sizeof(savedLink_005D80));
     }
-    // TODO TODO TODO remove
-    recomp_set_fd_anywhere(true);
 }
 
 void** prevPlayerSkeleton = NULL;
