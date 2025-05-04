@@ -318,3 +318,57 @@ RECOMP_HOOK_RETURN("Player_OverrideLimbDrawGameplayDefault")
 void Recolor_AfterOverrideLimbDrawFirstPerson() {
     Recolor_AfterOverrideLimbDrawDefault();
 }
+
+RECOMP_HOOK_RETURN("Player_Draw")
+void Recolor_AfterPlayerDraw(Actor* thisx, PlayState* play) {
+    Player* this = (Player*)thisx;
+    if (!(this->stateFlags2 & PLAYER_STATE2_20000000) && (this->unk_ABC > -3900.0f)) {
+        Gfx* toPatch = (Gfx*)Lib_SegmentedToVirtual(gLinkGoronCurledDL);
+        patch_prim_color_with_dl(toPatch, LINK_R, LINK_G, LINK_B, LINK_A, &prim_color_dls[PLAYER_FORM_GORON][0]);
+        replace_goron_roll(toPatch);
+
+        updateFormPrimColor(&prim_color_dls[PLAYER_FORM_GORON][0], PLAYER_FORM_GORON);
+        updateFormEnvColor(&env_color_dls[PLAYER_FORM_GORON][0], PLAYER_FORM_GORON);
+    }
+}
+
+RECOMP_HOOK_RETURN("func_80126BD0")
+void Recolor_AfterZoraFins(PlayState* play, Player* player, s32 arg2) {
+    Gfx* toPatch;
+    
+    toPatch = (Gfx*)Lib_SegmentedToVirtual(object_link_zora_DL_00CC38);
+    patch_prim_color_with_dl(toPatch, LINK_R, LINK_G, LINK_B, LINK_A, &prim_color_dls[PLAYER_FORM_ZORA][0]);
+    replace_zora_fins(toPatch, 0);
+    
+    toPatch = (Gfx*)Lib_SegmentedToVirtual(object_link_zora_DL_00CDA0);
+    patch_prim_color_with_dl(toPatch, LINK_R, LINK_G, LINK_B, LINK_A, &prim_color_dls[PLAYER_FORM_ZORA][0]);
+    replace_zora_fins(toPatch, 1);
+
+    toPatch = (Gfx*)Lib_SegmentedToVirtual(object_link_zora_DL_010868);
+    patch_prim_color_with_dl(toPatch, LINK_R, LINK_G, LINK_B, LINK_A, &prim_color_dls[PLAYER_FORM_ZORA][0]);
+    replace_zora_fins(toPatch, 2);
+
+    toPatch = (Gfx*)Lib_SegmentedToVirtual(object_link_zora_DL_010978);
+    patch_prim_color_with_dl(toPatch, LINK_R, LINK_G, LINK_B, LINK_A, &prim_color_dls[PLAYER_FORM_ZORA][0]);
+    replace_zora_fins(toPatch, 3);
+
+    toPatch = (Gfx*)Lib_SegmentedToVirtual(object_link_zora_DL_0110A8);
+    patch_prim_color_with_dl(toPatch, LINK_R, LINK_G, LINK_B, LINK_A, &prim_color_dls[PLAYER_FORM_ZORA][0]);
+    replace_zora_fins(toPatch, 4);
+}
+
+RECOMP_HOOK("EnBoom_Draw")
+void Recolor_OnBoomerangDraw(Actor* thisx, PlayState* play) {
+    Gfx* toPatch;
+    
+    toPatch = (Gfx*)Lib_SegmentedToVirtual(gameplay_keep_DL_06FE20);
+    patch_prim_color_with_dl(toPatch, LINK_R, LINK_G, LINK_B, LINK_A, &prim_color_dls[PLAYER_FORM_ZORA][0]);
+    replace_zora_boomerang(toPatch, 0);
+    
+    toPatch = (Gfx*)Lib_SegmentedToVirtual(gameplay_keep_DL_06FF68);
+    patch_prim_color_with_dl(toPatch, LINK_R, LINK_G, LINK_B, LINK_A, &prim_color_dls[PLAYER_FORM_ZORA][0]);
+    replace_zora_boomerang(toPatch, 1);
+
+    updateFormPrimColor(&prim_color_dls[PLAYER_FORM_ZORA][0], PLAYER_FORM_ZORA);
+    updateFormEnvColor(&env_color_dls[PLAYER_FORM_ZORA][0], PLAYER_FORM_ZORA);
+}

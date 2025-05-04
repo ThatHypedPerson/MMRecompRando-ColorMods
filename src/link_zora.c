@@ -287,3 +287,324 @@ void replace_zora(Gfx* toPatch, s32 curLimbIndex) {
             break;
     }
 }
+
+// zora fins
+extern u64 object_link_zora_TLUT_00C578[];
+extern u64 object_link_zora_Tex_00C778[];
+extern u64 object_link_zora_Tex_010228[];
+extern Vtx object_link_zoraVtx_00CA78[];
+extern Vtx object_link_zoraVtx_010628[];
+extern Vtx object_link_zoraVtx_010F38[];
+
+Gfx zora_fin1_commands[] = {
+    gsDPLoadTLUT_pal256(object_link_zora_TLUT_00C578),
+    gsDPLoadTextureBlock(object_link_zora_Tex_00C778, G_IM_FMT_CI, G_IM_SIZ_8b, 16, 32, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                         G_TX_MIRROR | G_TX_CLAMP, 4, 5, G_TX_NOLOD, G_TX_NOLOD),
+};
+
+Gfx zora_fin1_replacement[] = {
+    gsDPSetTextureLUT(G_TT_NONE),
+    gsDPLoadTextureBlock(zora_base, G_IM_FMT_RGBA, G_IM_SIZ_16b, 16, 32, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                         G_TX_MIRROR | G_TX_CLAMP, 4, 5, G_TX_NOLOD, G_TX_NOLOD),
+    gsSPEndDisplayList(),
+};
+
+Gfx zora_fin1_commands1[] = {
+    gsSP2Triangles(6, 7, 8, 0, 6, 9, 10, 0),
+    gsSP2Triangles(6, 11, 9, 0, 8, 7, 12, 0),
+    gsSP2Triangles(12, 13, 10, 0, 12, 7, 13, 0),
+    gsSP2Triangles(7, 6, 13, 0, 6, 10, 13, 0),
+    gsSP2Triangles(12, 9, 11, 0, 12, 10, 9, 0),
+};
+
+Gfx zora_fin1_replacement1[] = {
+    gsSP2Triangles(6, 7, 8, 0, 6, 9, 10, 0),
+    gsSP2Triangles(6, 11, 9, 0, 8, 7, 12, 0),
+    gsSP2Triangles(12, 13, 10, 0, 12, 7, 13, 0),
+    gsSP2Triangles(7, 6, 13, 0, 6, 10, 13, 0),
+    gsSP2Triangles(12, 9, 11, 0, 12, 10, 9, 0),
+    gsDPPipeSync(),
+    // gradient overlay
+    gsDPSetRenderMode(G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_DECAL2),
+    gsDPPipeSync(),
+    gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, TEXEL0, ENVIRONMENT, 0, COMBINED, 0, 0, 0, 0, COMBINED),
+    gsDPLoadTextureBlock(zora_gradient, G_IM_FMT_IA, G_IM_SIZ_16b, 16, 32, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                         G_TX_MIRROR | G_TX_CLAMP, 4, 5, G_TX_NOLOD, G_TX_NOLOD),
+    gsSP2Triangles(6, 7, 8, 0, 6, 9, 10, 0),
+    gsSP2Triangles(6, 11, 9, 0, 8, 7, 12, 0),
+    gsSP2Triangles(12, 13, 10, 0, 12, 7, 13, 0),
+    gsSP2Triangles(7, 6, 13, 0, 6, 10, 13, 0),
+    gsSP2Triangles(12, 9, 11, 0, 12, 10, 9, 0),
+    gsSPEndDisplayList(),
+};
+
+Gfx zora_fin1_commands2[] = {
+    gsSP2Triangles(6, 7, 8, 0, 9, 10, 8, 0),
+    gsSP2Triangles(10, 11, 8, 0, 12, 7, 6, 0),
+    gsSP2Triangles(9, 13, 12, 0, 13, 7, 12, 0),
+    gsSP2Triangles(13, 8, 7, 0, 13, 9, 8, 0),
+    gsSP2Triangles(11, 10, 12, 0, 10, 9, 12, 0),
+};
+
+Gfx zora_fin1_replacement2[] = {
+    gsSP2Triangles(6, 7, 8, 0, 9, 10, 8, 0),
+    gsSP2Triangles(10, 11, 8, 0, 12, 7, 6, 0),
+    gsSP2Triangles(9, 13, 12, 0, 13, 7, 12, 0),
+    gsSP2Triangles(13, 8, 7, 0, 13, 9, 8, 0),
+    gsSP2Triangles(11, 10, 12, 0, 10, 9, 12, 0),
+    gsDPPipeSync(),
+    // gradient overlay
+    gsDPSetRenderMode(G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_DECAL2),
+    gsDPPipeSync(),
+    gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, TEXEL0, ENVIRONMENT, 0, COMBINED, 0, 0, 0, 0, COMBINED),
+    gsDPLoadTextureBlock(zora_gradient, G_IM_FMT_IA, G_IM_SIZ_16b, 16, 32, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                         G_TX_MIRROR | G_TX_CLAMP, 4, 5, G_TX_NOLOD, G_TX_NOLOD),
+    gsSP2Triangles(6, 7, 8, 0, 9, 10, 8, 0),
+    gsSP2Triangles(10, 11, 8, 0, 12, 7, 6, 0),
+    gsSP2Triangles(9, 13, 12, 0, 13, 7, 12, 0),
+    gsSP2Triangles(13, 8, 7, 0, 13, 9, 8, 0),
+    gsSP2Triangles(11, 10, 12, 0, 10, 9, 12, 0),
+    gsSPEndDisplayList(),
+};
+
+Gfx zora_fin2_commands[] = {
+    gsDPLoadTextureBlock(object_link_zora_Tex_010228, G_IM_FMT_RGBA, G_IM_SIZ_16b, 16, 32, 0, G_TX_MIRROR | G_TX_CLAMP,
+                         G_TX_MIRROR | G_TX_CLAMP, 4, 5, G_TX_NOLOD, G_TX_NOLOD),
+};
+
+Gfx zora_fin2_replacement[] = {
+    gsDPLoadTextureBlock(zora_base, G_IM_FMT_RGBA, G_IM_SIZ_16b, 16, 32, 0, G_TX_MIRROR | G_TX_CLAMP,
+                         G_TX_MIRROR | G_TX_CLAMP, 4, 5, G_TX_NOLOD, G_TX_NOLOD),
+    gsSPEndDisplayList(),
+};
+
+Gfx zora_fin2_commands1[] = {
+    gsSPVertex(object_link_zoraVtx_010628, 7, 0),
+    gsSP2Triangles(0, 1, 2, 0, 3, 2, 4, 0),
+    gsSP2Triangles(1, 0, 5, 0, 4, 6, 3, 0),
+    gsSP1Triangle(2, 3, 0, 0),
+};
+
+Gfx zora_fin2_replacement1[] = {
+    gsSPVertex(object_link_zoraVtx_010628, 7, 0),
+    gsSP2Triangles(0, 1, 2, 0, 3, 2, 4, 0),
+    gsSP2Triangles(1, 0, 5, 0, 4, 6, 3, 0),
+    gsSP1Triangle(2, 3, 0, 0),
+    gsDPPipeSync(),
+    // gradient overlay
+    gsDPSetRenderMode(G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_DECAL2),
+    gsDPPipeSync(),
+    gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, TEXEL0, ENVIRONMENT, 0, COMBINED, 0, 0, 0, 0, COMBINED),
+    gsDPLoadTextureBlock(zora_gradient, G_IM_FMT_IA, G_IM_SIZ_16b, 16, 32, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                         G_TX_MIRROR | G_TX_CLAMP, 4, 5, G_TX_NOLOD, G_TX_NOLOD),
+    gsSPVertex(object_link_zoraVtx_010628, 7, 0),
+    gsSP2Triangles(0, 1, 2, 0, 3, 2, 4, 0),
+    gsSP2Triangles(1, 0, 5, 0, 4, 6, 3, 0),
+    gsSP1Triangle(2, 3, 0, 0),
+    gsDPPipeSync(),
+    gsDPSetRenderMode(G_RM_FOG_SHADE_A, G_RM_AA_ZB_OPA_SURF2),
+    gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, TEXEL0, PRIMITIVE, 0, COMBINED, 0, 0, 0, 0, COMBINED),
+    gsDPPipeSync(),
+    gsSPEndDisplayList(),
+};
+
+Gfx zora_fin2_commands2[] = {
+    gsSPVertex(&object_link_zoraVtx_010628[18], 7, 0),
+    gsSP2Triangles(0, 1, 2, 0, 3, 0, 4, 0),
+    gsSP2Triangles(5, 2, 1, 0, 4, 6, 3, 0),
+    gsSP1Triangle(2, 4, 0, 0),
+};
+
+Gfx zora_fin2_replacement2[] = {
+    gsSPVertex(&object_link_zoraVtx_010628[18], 7, 0),
+    gsSP2Triangles(0, 1, 2, 0, 3, 0, 4, 0),
+    gsSP2Triangles(5, 2, 1, 0, 4, 6, 3, 0),
+    gsSP1Triangle(2, 4, 0, 0),
+    gsDPPipeSync(),
+    // gradient overlay
+    gsDPSetRenderMode(G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_DECAL2),
+    gsDPPipeSync(),
+    gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, TEXEL0, ENVIRONMENT, 0, COMBINED, 0, 0, 0, 0, COMBINED),
+    gsDPLoadTextureBlock(zora_gradient, G_IM_FMT_IA, G_IM_SIZ_16b, 16, 32, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                         G_TX_MIRROR | G_TX_CLAMP, 4, 5, G_TX_NOLOD, G_TX_NOLOD),
+    gsSPVertex(&object_link_zoraVtx_010628[18], 7, 0),
+    gsSP2Triangles(0, 1, 2, 0, 3, 0, 4, 0),
+    gsSP2Triangles(5, 2, 1, 0, 4, 6, 3, 0),
+    gsSP1Triangle(2, 4, 0, 0),
+    gsDPPipeSync(),
+    gsDPSetRenderMode(G_RM_FOG_SHADE_A, G_RM_AA_ZB_OPA_SURF2),
+    gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, TEXEL0, PRIMITIVE, 0, COMBINED, 0, 0, 0, 0, COMBINED),
+    gsDPPipeSync(),
+    gsSPEndDisplayList(),
+};
+
+Gfx zora_fin3_commands[] = {
+    gsSPVertex(&object_link_zoraVtx_010F38[14], 9, 0),
+    gsSP2Triangles(0, 1, 2, 0, 1, 3, 2, 0),
+    gsSP2Triangles(1, 4, 3, 0, 1, 0, 4, 0),
+    gsSP2Triangles(5, 6, 2, 0, 6, 0, 2, 0),
+    gsSP2Triangles(0, 6, 4, 0, 6, 5, 4, 0),
+    gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_FOG | G_LIGHTING | G_SHADING_SMOOTH),
+    gsSP2Triangles(2, 3, 7, 0, 3, 8, 7, 0),
+    gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BACK | G_FOG | G_LIGHTING | G_SHADING_SMOOTH),
+    gsSP1Triangle(8, 3, 4, 0),
+};
+
+Gfx zora_fin3_replacement[] = {
+    gsSPVertex(&object_link_zoraVtx_010F38[14], 9, 0),
+    gsSP2Triangles(0, 1, 2, 0, 1, 3, 2, 0),
+    gsSP2Triangles(1, 4, 3, 0, 1, 0, 4, 0),
+    gsSP2Triangles(5, 6, 2, 0, 6, 0, 2, 0),
+    gsSP2Triangles(0, 6, 4, 0, 6, 5, 4, 0),
+    gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_FOG | G_LIGHTING | G_SHADING_SMOOTH),
+    gsSP2Triangles(2, 3, 7, 0, 3, 8, 7, 0),
+    gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BACK | G_FOG | G_LIGHTING | G_SHADING_SMOOTH),
+    gsSP1Triangle(8, 3, 4, 0),
+    gsDPPipeSync(),
+    // gradient overlay
+    gsDPSetRenderMode(G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_DECAL2),
+    gsDPPipeSync(),
+    gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, TEXEL0, ENVIRONMENT, 0, COMBINED, 0, 0, 0, 0, COMBINED),
+    gsDPLoadTextureBlock(zora_gradient, G_IM_FMT_IA, G_IM_SIZ_16b, 16, 32, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                         G_TX_MIRROR | G_TX_CLAMP, 4, 5, G_TX_NOLOD, G_TX_NOLOD),
+    gsSPVertex(&object_link_zoraVtx_010F38[14], 9, 0),
+    gsSP2Triangles(0, 1, 2, 0, 1, 3, 2, 0),
+    gsSP2Triangles(1, 4, 3, 0, 1, 0, 4, 0),
+    gsSP2Triangles(5, 6, 2, 0, 6, 0, 2, 0),
+    gsSP2Triangles(0, 6, 4, 0, 6, 5, 4, 0),
+    gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_FOG | G_LIGHTING | G_SHADING_SMOOTH),
+    gsSP2Triangles(2, 3, 7, 0, 3, 8, 7, 0),
+    gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BACK | G_FOG | G_LIGHTING | G_SHADING_SMOOTH),
+    gsSP1Triangle(8, 3, 4, 0),
+    gsSPEndDisplayList(),
+};
+
+void replace_zora_fins(Gfx* toPatch, s32 finType) {
+    switch (finType) {
+        case 0: // object_link_zora_DL_00CC38 (left fin)
+            replace_dl_commands_jump(toPatch, zora_fin1_commands, zora_fin1_replacement, ARRAY_COUNT(zora_fin1_commands));
+            replace_dl_commands_jump(toPatch, zora_fin1_commands1, zora_fin1_replacement1, ARRAY_COUNT(zora_fin1_commands1));
+            break;
+        case 1: // object_link_zora_DL_00CDA0 (right fin)
+            replace_dl_commands_jump(toPatch, zora_fin1_commands, zora_fin1_replacement, ARRAY_COUNT(zora_fin1_commands));
+            replace_dl_commands_jump(toPatch, zora_fin1_commands2, zora_fin1_replacement2, ARRAY_COUNT(zora_fin1_commands2));
+            break;
+        case 2: // object_link_zora_DL_010868 (swimming left fin)
+            replace_dl_commands_jump(toPatch, zora_fin2_commands, zora_fin2_replacement, ARRAY_COUNT(zora_fin2_commands));
+            replace_dl_commands_jump(toPatch, zora_fin2_commands1, zora_fin2_replacement1, ARRAY_COUNT(zora_fin2_commands1));
+        case 3: // object_link_zora_DL_010978 (swimming right fin)
+            replace_dl_commands_jump(toPatch, zora_fin2_commands, zora_fin2_replacement, ARRAY_COUNT(zora_fin2_commands));
+            replace_dl_commands_jump(toPatch, zora_fin2_commands2, zora_fin2_replacement2, ARRAY_COUNT(zora_fin2_commands2));
+        case 4: // object_link_zora_DL_0110A8 (shield)
+            replace_dl_commands_jump(toPatch, zora_fin2_commands, zora_fin2_replacement, ARRAY_COUNT(zora_fin2_commands));
+            replace_dl_commands_jump(toPatch, zora_fin3_commands, zora_fin3_replacement, ARRAY_COUNT(zora_fin3_commands));
+        default:
+            break;
+    }
+}
+
+// boomerang
+extern u64 gameplay_keep_Tex_0700B0[];
+extern Vtx gameplay_keepVtx_06FB60[];
+
+Gfx zora_boom_tex_commands[] = {
+    gsDPLoadTextureBlock(gameplay_keep_Tex_0700B0, G_IM_FMT_RGBA, G_IM_SIZ_16b, 16, 32, 0, G_TX_MIRROR | G_TX_CLAMP,
+                         G_TX_MIRROR | G_TX_CLAMP, 4, 5, G_TX_NOLOD, G_TX_NOLOD),
+};
+
+Gfx zora_boom_tex_replacement[] = {
+    gsDPLoadTextureBlock(zora_base, G_IM_FMT_RGBA, G_IM_SIZ_16b, 16, 32, 0, G_TX_MIRROR | G_TX_CLAMP,
+                         G_TX_MIRROR | G_TX_CLAMP, 4, 5, G_TX_NOLOD, G_TX_NOLOD),
+    gsSPEndDisplayList(),
+};
+
+Gfx zora_boom_commands[] = {
+    gsSPVertex(&gameplay_keepVtx_06FB60[12], 10, 0),
+    gsSP2Triangles(0, 1, 2, 0, 1, 3, 2, 0),
+    gsSP2Triangles(3, 4, 2, 0, 4, 5, 2, 0),
+    gsSP2Triangles(5, 6, 2, 0, 5, 7, 6, 0),
+    gsSP2Triangles(8, 5, 4, 0, 8, 4, 3, 0),
+    gsSP2Triangles(8, 3, 1, 0, 8, 1, 0, 0),
+    gsSP2Triangles(9, 8, 0, 0, 9, 7, 5, 0),
+    gsSP2Triangles(8, 9, 5, 0, 0, 2, 6, 0),
+};
+
+Gfx zora_boom_replacement[] = {
+    gsSPVertex(&gameplay_keepVtx_06FB60[12], 10, 0),
+    gsSP2Triangles(0, 1, 2, 0, 1, 3, 2, 0),
+    gsSP2Triangles(3, 4, 2, 0, 4, 5, 2, 0),
+    gsSP2Triangles(5, 6, 2, 0, 5, 7, 6, 0),
+    gsSP2Triangles(8, 5, 4, 0, 8, 4, 3, 0),
+    gsSP2Triangles(8, 3, 1, 0, 8, 1, 0, 0),
+    gsSP2Triangles(9, 8, 0, 0, 9, 7, 5, 0),
+    gsSP2Triangles(8, 9, 5, 0, 0, 2, 6, 0),
+    gsDPPipeSync(),
+    // gradient overlay
+    gsDPSetRenderMode(G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_DECAL2),
+    gsDPPipeSync(),
+    gsDPLoadTextureBlock(zora_gradient, G_IM_FMT_IA, G_IM_SIZ_16b, 16, 32, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                         G_TX_MIRROR | G_TX_CLAMP, 4, 5, G_TX_NOLOD, G_TX_NOLOD),
+    gsSPDisplayList(&prim_color_dls[PLAYER_FORM_ZORA]),
+    gsSPVertex(&gameplay_keepVtx_06FB60[12], 10, 0),
+    gsSP2Triangles(0, 1, 2, 0, 1, 3, 2, 0),
+    gsSP2Triangles(3, 4, 2, 0, 4, 5, 2, 0),
+    gsSP2Triangles(5, 6, 2, 0, 5, 7, 6, 0),
+    gsSP2Triangles(8, 5, 4, 0, 8, 4, 3, 0),
+    gsSP2Triangles(8, 3, 1, 0, 8, 1, 0, 0),
+    gsSP2Triangles(9, 8, 0, 0, 9, 7, 5, 0),
+    gsSP2Triangles(8, 9, 5, 0, 0, 2, 6, 0),
+    gsSPEndDisplayList(),
+};
+
+Gfx zora_boom_commands1[] = {
+    gsSPVertex(&gameplay_keepVtx_06FB60[34], 10, 0),
+    gsSP2Triangles(0, 1, 2, 0, 0, 3, 1, 0),
+    gsSP2Triangles(0, 4, 3, 0, 0, 5, 4, 0),
+    gsSP2Triangles(0, 6, 5, 0, 6, 7, 5, 0),
+    gsSP2Triangles(4, 5, 8, 0, 3, 4, 8, 0),
+    gsSP2Triangles(1, 3, 8, 0, 2, 1, 8, 0),
+    gsSP2Triangles(2, 8, 9, 0, 5, 7, 9, 0),
+    gsSP2Triangles(5, 9, 8, 0, 6, 0, 2, 0),
+};
+
+Gfx zora_boom_replacement1[] = {
+    gsSPVertex(&gameplay_keepVtx_06FB60[34], 10, 0),
+    gsSP2Triangles(0, 1, 2, 0, 0, 3, 1, 0),
+    gsSP2Triangles(0, 4, 3, 0, 0, 5, 4, 0),
+    gsSP2Triangles(0, 6, 5, 0, 6, 7, 5, 0),
+    gsSP2Triangles(4, 5, 8, 0, 3, 4, 8, 0),
+    gsSP2Triangles(1, 3, 8, 0, 2, 1, 8, 0),
+    gsSP2Triangles(2, 8, 9, 0, 5, 7, 9, 0),
+    gsSP2Triangles(5, 9, 8, 0, 6, 0, 2, 0),
+    gsDPPipeSync(),
+    // gradient overlay
+    gsDPSetRenderMode(G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_DECAL2),
+    gsDPPipeSync(),
+    gsDPLoadTextureBlock(zora_gradient, G_IM_FMT_IA, G_IM_SIZ_16b, 16, 32, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                         G_TX_MIRROR | G_TX_CLAMP, 4, 5, G_TX_NOLOD, G_TX_NOLOD),
+    gsSPDisplayList(&prim_color_dls[PLAYER_FORM_ZORA]),
+    gsSPVertex(&gameplay_keepVtx_06FB60[34], 10, 0),
+    gsSP2Triangles(0, 1, 2, 0, 0, 3, 1, 0),
+    gsSP2Triangles(0, 4, 3, 0, 0, 5, 4, 0),
+    gsSP2Triangles(0, 6, 5, 0, 6, 7, 5, 0),
+    gsSP2Triangles(4, 5, 8, 0, 3, 4, 8, 0),
+    gsSP2Triangles(1, 3, 8, 0, 2, 1, 8, 0),
+    gsSP2Triangles(2, 8, 9, 0, 5, 7, 9, 0),
+    gsSP2Triangles(5, 9, 8, 0, 6, 0, 2, 0),
+    gsSPEndDisplayList(),
+};
+
+void replace_zora_boomerang(Gfx* toPatch, s32 boomType) {
+    switch (boomType) {
+        case 0:
+            replace_dl_commands_jump(toPatch, zora_boom_tex_commands, zora_boom_tex_replacement, ARRAY_COUNT(zora_boom_tex_commands));
+            replace_dl_commands_jump(toPatch, zora_boom_commands, zora_boom_replacement, ARRAY_COUNT(zora_boom_commands));
+            break;
+        case 1:
+            replace_dl_commands_jump(toPatch, zora_boom_tex_commands, zora_boom_tex_replacement, ARRAY_COUNT(zora_boom_tex_commands));
+            replace_dl_commands_jump(toPatch, zora_boom_commands1, zora_boom_replacement1, ARRAY_COUNT(zora_boom_commands1));
+            break;
+        default:
+            break;
+    }
+}

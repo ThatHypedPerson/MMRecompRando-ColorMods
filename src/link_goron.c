@@ -28,6 +28,7 @@ typedef enum LinkGoronLimb {
 } LinkGoronLimb;
 
 extern u64 object_link_goron_Tex_002780[];
+extern u64 object_link_goron_Tex_00CEB8[];
 
 u64 Goron_Tunic_I[] = {
 #include "textures/goron_tunic.inc"
@@ -57,4 +58,21 @@ void replace_goron(Gfx* toPatch, s32 curLimbIndex) {
         default:
             break;
     }
+}
+
+Gfx goron_roll_texture_commands[] = {
+    gsDPLoadTextureBlock(object_link_goron_Tex_00CEB8, G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 16, 0, G_TX_MIRROR | G_TX_CLAMP,
+        G_TX_MIRROR | G_TX_CLAMP, 3, 4, G_TX_NOLOD, G_TX_NOLOD)
+};
+
+Gfx goron_roll_texture_replacement[] = {
+    gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, TEXEL0, PRIMITIVE, 0, COMBINED, 0, 0, 0, 0, COMBINED),
+    gsDPLoadTextureBlock(Goron_Tunic_I, G_IM_FMT_I, G_IM_SIZ_8b, 8, 16, 0, G_TX_MIRROR | G_TX_CLAMP,
+        G_TX_MIRROR | G_TX_CLAMP, 3, 4, G_TX_NOLOD, G_TX_NOLOD),
+    gsSPDisplayList(&prim_color_dls[PLAYER_FORM_GORON]),
+    gsSPEndDisplayList(),
+};
+
+void replace_goron_roll(Gfx* toPatch) {
+    replace_dl_commands_jump(toPatch, goron_roll_texture_commands, goron_roll_texture_replacement, ARRAY_COUNT(goron_roll_texture_commands));
 }

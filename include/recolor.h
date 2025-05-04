@@ -78,7 +78,10 @@ extern u64 savedLink_005D80[16];
 
 void replace_deku(Gfx* toPatch, s32 curLimbIndex);
 void replace_goron(Gfx* toPatch, s32 curLimbIndex);
+void replace_goron_roll(Gfx* toPatch);
 void replace_zora(Gfx* toPatch, s32 curLimbIndex);
+void replace_zora_fins(Gfx* toPatch, s32 finType);
+void replace_zora_boomerang(Gfx* toPatch, s32 boomType);
 void replace_fd(Gfx* toPatch, s32 curLimbIndex);
 
 #endif
