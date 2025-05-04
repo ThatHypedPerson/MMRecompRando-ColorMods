@@ -182,6 +182,6 @@ bool replace_dl_commands_jump(Gfx* to_scan, Gfx* to_find, Gfx* target, u32 lengt
         // Go to the next command.
         cur_cmd++;
     }
-    recomp_printf("didnt find\n");
+    // recomp_printf("didnt find\n");
     return false;
 }

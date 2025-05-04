@@ -213,7 +213,7 @@ RECOMP_HOOK("Player_DrawImpl") void on_player_draw(PlayState* play, void** skele
     // When the player is drawn with a new skeleton, patch their DLs.
     // This prevents scanning every player DL every frame unnecessarily, which could add up if custom models are very large.
     if (skeleton && skeleton != prevPlayerSkeleton) {
-        recomp_printf("skeleton changed\n");
+        // recomp_printf("skeleton changed\n");
         patchingPlayerDls = true;
         currentPlayerForm = playerForm;
     }
