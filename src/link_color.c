@@ -98,7 +98,7 @@ void hsv_to_rgb(float h, float s, float v, Color_RGB8* out) {
 
 RECOMP_HOOK("Play_Update") void on_play_update() {
     static float hue = 0.0f;
-    hue += 2.0f;
+    hue += recomp_get_config_double("rainbow_cycle");
     if (hue >= 360.0f) {
         hue -= 360.0f;
     }

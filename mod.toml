@@ -70,3 +70,16 @@ RGB your Link"""
 type = "Enum"
 options = [ "Off", "On" ]
 default = "Off"
+
+[[manifest.config_options]]
+id = "rainbow_cycle"
+name = "Rainbow Cycle Speed"
+description = """
+Change how fast the rainbow cycles"""
+type = "Number"
+min = 0
+max = 5
+step = 0.1
+precision = 1
+percent = false
+default = 1
