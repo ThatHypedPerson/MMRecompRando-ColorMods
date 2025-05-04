@@ -1,3 +1,8 @@
+#ifndef __RECOLOR_H__
+#define __RECOLOR_H__
+
+#include "global.h"
+
 // Player transformation colors
 extern Color_RGB8 humanTunicColor;
 extern Color_RGB8 dekuTunicColor;
@@ -64,3 +69,16 @@ extern Color_RGB8 mapEntranceColor;
 
 // Ocarina playback colors 
 extern Color_RGB8 trebleClefColor;
+
+extern Gfx prim_color_dls[PLAYER_FORM_MAX][2];
+extern Gfx env_color_dls[PLAYER_FORM_MAX][2];
+
+extern u64 savedLink_005C40[32];
+extern u64 savedLink_005D80[16];
+
+void replace_deku(Gfx* toPatch, s32 curLimbIndex);
+void replace_goron(Gfx* toPatch, s32 curLimbIndex);
+void replace_zora(Gfx* toPatch, s32 curLimbIndex);
+void replace_fd(Gfx* toPatch, s32 curLimbIndex);
+
+#endif
