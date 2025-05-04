@@ -8,24 +8,23 @@
 id = "mm_recomp_colors"
 
 # Version of this mod.
-version = "1.0.0"
+version = "0.5.0"
 
 # The name that will show up for this mod in the mod menu. This should be human readable.
 display_name = "MM Recolors"
 
 # The description that will show up when this mod is displayed in the mod menu. This should be human readable.
 description =  """
-This is an example mod for Majora's Mask: Recompiled that can be used as a template for creating mods. \
-When this mod is enabled, you will always perform a quickspin when swinging your sword.
+replace link's tunic with fun colors (other recolors soon™)
 
-For more details, see https://github.com/Zelda64Recomp/MMRecompModTemplate."""
+currently only compatible with MMRecompRando"""
 
 # A short description that will show up in this mod's entry in the mod list. This should be human readable and kept short
 # to prevent it from being cut off due to the limited space.
-short_description = "Always perform a quickspin when swinging your sword."
+short_description = "colors :D"
 
 # Authors of this mod.
-authors = [ "Hyped (ThatHypedPerson)" ]
+authors = [ "Hyped (ThatHypedPerson)", "Wiseguy" ]
 
 # ID of the target recomp game.
 game_id = "mm"
@@ -62,66 +61,10 @@ data_reference_syms_files = [ "Zelda64RecompSyms/mm.us.rev1.datasyms.toml", "Zel
 additional_files = [ ]
 
 [[manifest.config_options]]
-id = "replace_human"
-name = "Replace Human Link"
+id = "rainbow_tunic"
+name = "Rainbow Tunic"
 description = """
-Replaces the Human Link model.
-
-This mod works by replacing the models for each of the transformations.
-Only disable this if you are using a custom model/want the original model.
-You will need to reload your player for this to take effect."""
+RGB your Link"""
 type = "Enum"
 options = [ "Off", "On" ]
-default = "On"
-
-[[manifest.config_options]]
-id = "replace_deku"
-name = "Replace Deku Link"
-description = """
-Replaces the Deku Link model.
-
-This mod works by replacing the models for each of the transformations.
-Only disable this if you are using a custom model/want the original model.
-You will need to reload your player for this to take effect."""
-type = "Enum"
-options = [ "Off", "On" ]
-default = "On"
-
-[[manifest.config_options]]
-id = "replace_goron"
-name = "Replace Goron Link"
-description = """
-Replaces the Goron Link models.
-
-This mod works by replacing the models for each of the transformations.
-Only disable this if you are using a custom model/want the original model.
-You will need to reload your player for this to take effect."""
-type = "Enum"
-options = [ "Off", "On" ]
-default = "On"
-
-[[manifest.config_options]]
-id = "replace_zora"
-name = "Replace Zora Link"
-description = """
-Replaces the Zora Link model.
-
-This mod works by replacing the models for each of the transformations.
-Only disable this if you are using a custom model/want the original model.
-You will need to reload your player for this to take effect."""
-type = "Enum"
-options = [ "Off", "On" ]
-default = "On"
-
-[[manifest.config_options]]
-id = "replace_fd"
-name = "Replace Fierce Deity"
-description = """
-Replaces the Fierce Deity model.
-
-This mod works by replacing the models for each of the transformations.
-Only disable this if you are using a custom model/want the original model.
-You will need to reload your player for this to take effect."""
-type = "Enum"
-options = [ "Off", "On" ]
-default = "On"
+default = "Off"

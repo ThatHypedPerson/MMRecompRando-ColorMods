@@ -15,6 +15,12 @@ u64 savedLink_005D80[16];
 extern u64 object_link_child_Tex_005C40[];
 extern u64 object_link_child_Tex_005D80[];
 
+Color_RGB8 savedHumanTunicColor;
+Color_RGB8 savedDekuTunicColor;
+Color_RGB8 savedGoronTunicColor;
+Color_RGB8 savedZoraTunicColor;
+Color_RGB8 savedFDTunicColor;
+
 RECOMP_IMPORT("*", void recomp_set_fd_anywhere(bool new_val));
 
 RECOMP_HOOK_RETURN("Player_Init")
@@ -26,71 +32,90 @@ void load_textures(Actor* thisx, PlayState* play) {
     }
 }
 
+RECOMP_HOOK("Play_Init") void on_play_init() {
+    savedHumanTunicColor = humanTunicColor;
+    savedDekuTunicColor = dekuTunicColor;
+    savedGoronTunicColor = goronTunicColor;
+    savedZoraTunicColor = zoraTunicColor;
+    savedFDTunicColor = fdTunicColor;
+}
+
 void** prevPlayerSkeleton = NULL;
 bool patchingPlayerDls = false;
 PlayerTransformation currentPlayerForm = PLAYER_FORM_MAX;
 
-// Rainbow tunic for testing
-// void hsv_to_rgb(float h, float s, float v, Color_RGB8* out) {
-//     float r = 0, g = 0, b = 0;
-//     if (s == 0) {
-//         r = g = b = v;
-//     } else {
-//         int i;
-//         float f, p, q, t;
-//         h = h / 60.0f;
-//         i = (int)(h);
-//         f = h - i;
-//         p = v * (1 - s);
-//         q = v * (1 - f * s);
-//         t = v * (1 - (1 - f) * s);
-//         switch (i) {
-//             case 0:
-//                 r = v;
-//                 g = t;
-//                 b = p;
-//                 break;
-//             case 1:
-//                 r = q;
-//                 g = v;
-//                 b = p;
-//                 break;
-//             case 2:
-//                 r = p;
-//                 g = v;
-//                 b = t;
-//                 break;
-//             case 3:
-//                 r = p;
-//                 g = q;
-//                 b = v;
-//                 break;
-//             case 4:
-//                 r = t;
-//                 g = p;
-//                 b = v;
-//                 break;
-//             default:
-//                 r = v;
-//                 g = p;
-//                 b = q;
-//                 break;
-//         }
-//     }
-//     out->r = r * 255;
-//     out->g = g * 255;
-//     out->b = b * 255;
-// }
+// Rainbow tunic
+void hsv_to_rgb(float h, float s, float v, Color_RGB8* out) {
+    float r = 0, g = 0, b = 0;
+    if (s == 0) {
+        r = g = b = v;
+    } else {
+        int i;
+        float f, p, q, t;
+        h = h / 60.0f;
+        i = (int)(h);
+        f = h - i;
+        p = v * (1 - s);
+        q = v * (1 - f * s);
+        t = v * (1 - (1 - f) * s);
+        switch (i) {
+            case 0:
+                r = v;
+                g = t;
+                b = p;
+                break;
+            case 1:
+                r = q;
+                g = v;
+                b = p;
+                break;
+            case 2:
+                r = p;
+                g = v;
+                b = t;
+                break;
+            case 3:
+                r = p;
+                g = q;
+                b = v;
+                break;
+            case 4:
+                r = t;
+                g = p;
+                b = v;
+                break;
+            default:
+                r = v;
+                g = p;
+                b = q;
+                break;
+        }
+    }
+    out->r = r * 255;
+    out->g = g * 255;
+    out->b = b * 255;
+}
 
-// RECOMP_HOOK("Play_Update") void on_play_update() {
-//     static float hue = 0.0f;
-//     hue += 2.0f;
-//     if (hue >= 360.0f) {
-//         hue -= 360.0f;
-//     }
-//     hsv_to_rgb(hue, 1.0f, 1.0f, &humanTunicColor);
-// }
-// End rainbow tunic
+RECOMP_HOOK("Play_Update") void on_play_update() {
+    static float hue = 0.0f;
+    hue += 2.0f;
+    if (hue >= 360.0f) {
+        hue -= 360.0f;
+    }
+    if (recomp_get_config_u32("rainbow_tunic")) {
+        hsv_to_rgb(hue, 1.0f, 1.0f, &humanTunicColor);
+        hsv_to_rgb(hue, 1.0f, 1.0f, &dekuTunicColor);
+        hsv_to_rgb(hue, 1.0f, 1.0f, &goronTunicColor);
+        hsv_to_rgb(hue, 1.0f, 1.0f, &zoraTunicColor);
+        hsv_to_rgb(hue, 1.0f, 1.0f, &fdTunicColor);
+    } else {
+        humanTunicColor = savedHumanTunicColor;
+        dekuTunicColor = savedDekuTunicColor;
+        goronTunicColor = savedGoronTunicColor;
+        zoraTunicColor = savedZoraTunicColor;
+        fdTunicColor = savedFDTunicColor;
+    }
+}
 
 RECOMP_HOOK("Player_Init") void on_player_init() {
     prevPlayerSkeleton = NULL;
